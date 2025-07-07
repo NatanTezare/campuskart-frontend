@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USIU Marketplace</title>
+    
+    <style>
+        /* CSS Styles */
+        :root {
+            --usiu-blue: #003366;
+            --usiu-yellow: #FFCC00;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --medium-gray: #777;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-header {
+            background-color: var(--usiu-blue);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .logo h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-nav ul li {
+            margin-right: 20px;
+        }
+
+        .main-nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--usiu-yellow);
+        }
+
+        .main-nav ul li a.active {
+            color: var(--usiu-yellow);
+            border-bottom: 2px solid var(--usiu-yellow);
+        }
+
+        .btn-primary {
+            background-color: var(--usiu-yellow);
+            color: var(--usiu-blue);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #e6b800;
+        }
+
+        .search-bar {
+            display: flex;
+            margin: 20px 0;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover {
+            background-color: var(--light-gray);
+        }
+
+        .category-btn.active {
+            background-color: var(--usiu-blue);
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: var(--usiu-blue);
+            margin: 5px 0;
+        }
+
+        .product-category {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Auth Page Styles */
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--medium-gray);
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--usiu-blue);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--usiu-blue);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        /* Product Detail Styles */
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .product-images {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .main-product-image {
+            height: 400px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .main-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            background-color: #eee;
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .seller-info, .product-description {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .main-nav ul {
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main App Container -->
+    <div id="app">
+        <!-- Auth Page (shown by default) -->
+        <div id="auth-page" class="auth-container">
+            <div class="logo">
+                <h1>USIU Marketplace</h1>
+                <p>Buy and sell within the USIU community</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="login-tab">Login</button>
+                <button class="tab-btn" id="signup-tab">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-email">USIU Email (@usiu.ac.ke)</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">USIU Email (@usiu.ac.ke)</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-phone">Phone Number</label>
+                    <input type="tel" id="signup-phone">
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+        </div>
+        
+        <!-- Dashboard Page (hidden by default) -->
+        <div id="dashboard-page" style="display: none;">
+            <header class="main-header">
+                <div class="logo">
+                    <h1>USIU Marketplace</h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="dashboard">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
+                        <li><a href="#" id="logout-btn">Logout</a></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <main class="container">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search products..." id="search-input">
+                    <button class="btn-primary" id="search-btn">Search</button>
+                </div>
+                
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="Books">Books</button>
+                    <button class="category-btn" data-category="Electronics">Electronics</button>
+                    <button class="category-btn" data-category="Furniture">Furniture</button>
+                    <button class="category-btn" data-category="Clothing">Clothing</button>
+                    <button class="category-btn" data-category="Other">Other</button>
+                </div>
+                
+                <div class="products-grid" id="products-container">
+                    <!-- Products will be loaded here via JavaScript -->
+                </div>
+            </main>
+            
+            <footer class="main-footer">
+                <p>&copy; 2023 USIU Marketplace. For USIU community only.</p>
+            </footer>
+        </div>
+        
+        <!-- Post Product Page (hidden by default) -->
+        <div id="post-product-page" style="display: none;">
+            <header class="main-header">
+                <div class="logo">
+                    <h1>USIU Marketplace</h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
+                        <li><a href="#" class="nav-link active" data-page="post-product">Sell Item</a></li>
+                        <li><a href="#" id="logout-btn-2">Logout</a></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <main class="container">
+                <h2>Post a New Item</h2>
+                
+                <form id="product-form" class="product-form">
+                    <div class="form-group">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-category">Category</label>
+                        <select id="product-category" required>
+                            <option value="">Select a category</option>
+                            <option value="Books">Books</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-price">Price (KSH)</label>
+                        <input type="number" id="product-price" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-images">Upload Images (Max 3)</label>
+                        <input type="file" id="product-images" accept="image/*" multiple>
+                        <div class="image-preview" id="image-preview"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Post Item</button>
+                </form>
+            </main>
+        </div>
+        
+        <!-- Product Detail Page (hidden by default) -->
+        <div id="product-detail-page" style="display: none;">
+            <header class="main-header">
+                <div class="logo">
+                    <h1>USIU Marketplace</h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
+                        <li><a href="#" id="logout-btn-3">Logout</a></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <main class="container">
+                <a href="#" class="back-link" data-page="dashboard">← Back to Marketplace</a>
+                
+                <div class="product-detail">
+                    <div class="product-images" id="product-images">
+                        <div class="main-product-image">
+                            <img id="main-product-image" src="" alt="Product Image">
+                        </div>
+                        <div class="thumbnail-container" id="thumbnail-container">
+                            <!-- Thumbnails will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div class="product-info">
+                        <h1 id="product-title">Product Title</h1>
+                        <p class="product-price" id="product-price">KSH 0</p>
+                        <p class="product-category" id="product-category">Category</p>
+                        
+                        <div class="seller-info">
+                            <h3>Seller Information</h3>
+                            <p id="seller-name">Name: </p>
+                            <p id="seller-email">Email: </p>
+                            <p id="seller-phone">Phone: </p>
+                        </div>
+                        
+                        <div class="product-description">
+                            <h3>Description</h3>
+                            <p id="product-full-description">No description available.</p>
+                        </div>
+                        
+                        <button class="btn-primary" id="contact-seller">Contact Seller</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        <!-- Contact Modal -->
+        <div class="modal" id="contact-modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Contact Seller</h2>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="contact-message">Your Message</label>
+                        <textarea id="contact-message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // At the top of the <script> tag
+        document.addEventListener('DOMContentLoaded', function() {
+         // API Configuration
+            const API_URL = 'https://campuskart-backend-unqp.onrender.com';
+            let authToken = localStorage.getItem('token'); // Load token from browser storage
+
+            // State management
+            const state = {
+                currentUser: null, // We'll populate this after login
+                products: [],
+                currentProduct: null,
+            };
+            
+            // DOM Elements
+            const authPage = document.getElementById('auth-page');
+            const dashboardPage = document.getElementById('dashboard-page');
+            const postProductPage = document.getElementById('post-product-page');
+            const productDetailPage = document.getElementById('product-detail-page');
+            
+            // Auth Elements
+            const loginTab = document.getElementById('login-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            // Dashboard Elements
+            const productsContainer = document.getElementById('products-container');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // Post Product Elements
+            const productForm = document.getElementById('product-form');
+            const productImagesInput = document.getElementById('product-images');
+            const imagePreview = document.getElementById('image-preview');
+            
+            // Product Detail Elements
+            const backLink = document.querySelector('.back-link');
+            const contactSellerBtn = document.getElementById('contact-seller');
+            
+            // Modal Elements
+            const contactModal = document.getElementById('contact-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const contactForm = document.getElementById('contact-form');
+            
+            // Navigation Links
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Logout Buttons
+            const logoutBtns = document.querySelectorAll('[id^="logout-btn"]');
+            
+            // Sample data for demonstration
+            const sampleProducts = [
+                {
+                    id: 1,
+                    name: "Calculus Textbook",
+                    price: 1500,
+                    category: "Books",
+                    description: "Calculus textbook for MATH 121, barely used.",
+                    images: ['https://via.placeholder.com/300x400?text=Calculus+Textbook'],
+                    seller: {
+                        name: "John Doe",
+                        email: "j.doe@usiu.ac.ke",
+                        phone: "0712345678"
+                    }
+                },
+                {
+                    id: 2,
+                    name: "Laptop Stand",
+                    price: 1200,
+                    category: "Electronics",
+                    description: "Adjustable laptop stand in excellent condition.",
+                    images: ['https://via.placeholder.com/400x300?text=Laptop+Stand'],
+                    seller: {
+                        name: "Jane Smith",
+                        email: "j.smith@usiu.ac.ke",
+                        phone: "0723456789"
+                    }
+                },
+                {
+                    id: 3,
+                    name: "Desk Chair",
+                    price: 3500,
+                    category: "Furniture",
+                    description: "Comfortable office chair with good back support.",
+                    images: ['https://via.placeholder.com/400x400?text=Desk+Chair'],
+                    seller: {
+                        name: "Mike Johnson",
+                        email: "m.johnson@usiu.ac.ke",
+                        phone: "0734567890"
+                    }
+                }
+            ];
+            
+            // Initialize the app
+            function init() {
+                // Check if user is logged in (for demo purposes)
+                const loggedInUser = localStorage.getItem('usiuMarketplaceUser');
+                if (loggedInUser) {
+                    state.currentUser = JSON.parse(loggedInUser);
+                    showPage('dashboard');
+                    loadProducts();
+                } else {
+                    showPage('auth');
+                }
+                
+                setupEventListeners();
+            }
+            
+            // Set up all event listeners
+            function setupEventListeners() {
+                // Auth tab switching
+                loginTab.addEventListener('click', () => switchAuthTab('login'));
+                signupTab.addEventListener('click', () => switchAuthTab('signup'));
+                
+                // Form submissions
+                loginForm.addEventListener('submit', handleLogin);
+                signupForm.addEventListener('submit', handleSignup);
+                productForm.addEventListener('submit', handleProductSubmit);
+                contactForm.addEventListener('submit', handleContactSubmit);
+                
+                // Image upload preview
+                productImagesInput.addEventListener('change', handleImageUpload);
+                
+                // Category filtering
+                categoryBtns.forEach(btn => {
+                    btn.addEventListener('click', () => filterProducts(btn.dataset.category));
+                });
+                
+                // Search functionality
+                searchBtn.addEventListener('click', handleSearch);
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') handleSearch();
+                });
+                
+                // Navigation
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showPage(link.dataset.page);
+                    });
+                });
+                
+                // Back link
+                backLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage(backLink.dataset.page);
+                });
+                
+                // Contact seller
+                contactSellerBtn.addEventListener('click', () => {
+                    contactModal.style.display = 'flex';
+                });
+                
+                // Close modal
+                closeModal.addEventListener('click', () => {
+                    contactModal.style.display = 'none';
+                });
+                
+                // Logout buttons
+                logoutBtns.forEach(btn => {
+                    btn.addEventListener('click', handleLogout);
+                });
+                
+                // Close modal when clicking outside
+                window.addEventListener('click', (e) => {
+                    if (e.target === contactModal) {
+                        contactModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Switch between login and signup tabs
+            function switchAuthTab(tab) {
+                if (tab === 'login') {
+                    loginTab.classList.add('active');
+                    signupTab.classList.remove('active');
+                    loginForm.classList.add('active');
+                    signupForm.classList.remove('active');
+                } else {
+                    loginTab.classList.remove('active');
+                    signupTab.classList.add('active');
+                    loginForm.classList.remove('active');
+                    signupForm.classList.add('active');
+                }
+            }
+            
+            // Handle login
+            // In handleLogin function
+            // --- Replace your handleLogin, handleSignup, and handleLogout functions with these ---
+
+            async function handleLogin(e) {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                try {
+                    const response = await fetch(`${API_URL}/api/users/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ usiuEmail: email, password: password })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+
+                    // --- SUCCESS ---
+                    alert('Login successful!');
+                    authToken = data.token;
+                    state.currentUser = data.user;
+                    localStorage.setItem('token', authToken); // Save token for future sessions
+                    showPage('dashboard');
+                } catch (error) {
+                    alert(`Login Error: ${error.message}`);
+                }
+            }
+
+            async function handleSignup(e) {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('signup-confirm').value;
+                const phone = document.getElementById('signup-phone').value; // Get the phone number
+
+                if (password !== confirmPassword) return alert('Passwords do not match');
+
+                // Split name into first and last
+                const nameParts = name.trim().split(' ');
+                const firstName = nameParts[0];
+                const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+                try {
+                    const response = await fetch(`${API_URL}/api/users/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            firstName: firstName,
+                            lastName: lastName,
+                            usiuEmail: email,
+                            password: password,
+                            phone_number: phone // Send phone number to the backend
+                        })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+
+                    // --- SUCCESS ---
+                    alert('Signup successful! Please check your email to verify your account.');
+                    signupForm.reset();
+                    switchAuthTab('login'); // Move user to the login tab
+                } catch (error) {
+                    alert(`Signup Error: ${error.message}`);
+                }
+            }
+
+            function handleLogout() {
+                authToken = null;
+                state.currentUser = null;
+                localStorage.removeItem('token');
+                showPage('auth');
+                alert('You have been logged out.');
+            }
+            
+            // Show specific page
+            function showPage(page) {
+                state.currentPage = page;
+                
+                // Hide all pages
+                authPage.style.display = 'none';
+                dashboardPage.style.display = 'none';
+                postProductPage.style.display = 'none';
+                productDetailPage.style.display = 'none';
+                
+                // Show the requested page
+                if (page === 'auth') {
+                    authPage.style.display = 'block';
+                } else if (page === 'dashboard') {
+                    dashboardPage.style.display = 'block';
+                    loadProducts();
+                } else if (page === 'post-product') {
+                    postProductPage.style.display = 'block';
+                } else if (page === 'product-detail') {
+                    productDetailPage.style.display = 'block';
+                }
+                
+                // Update active nav links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.page === page) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // Load products
+            async function loadProducts(params = {}) {
+                const query = new URLSearchParams(params).toString();
+                const url = `${API_URL}/api/items?${query}`;
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    state.products = await response.json();
+                    renderProducts(state.products);
+                } catch (error) {
+                    productsContainer.innerHTML = `<p>Error: ${error.message}. Could not load products.</p>`;
+                }
+            }
+
+            
+            // Render products to the dashboard
+            function renderProducts(products) {
+                productsContainer.innerHTML = '';
+                if (products.length === 0) {
+                    productsContainer.innerHTML = '<p>No products found.</p>';
+                    return;
+                }
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    // Use the field names from our API response
+                    productCard.innerHTML = `
+                        <div class="product-image">
+                            <img src="${product.image_url}" alt="${product.title}">
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.title}</h3>
+                            <p class="product-price">KSH ${product.price.toLocaleString()}</p>
+                            <p class="product-category">${product.category}</p>
+                        </div>
+                    `;
+                    productCard.addEventListener('click', () => showProductDetail(product.item_id));
+                    productsContainer.appendChild(productCard);
+                });
+            }
+            
+            // Filter products by category
+            function filterProducts(category) {
+                // Update active category button UI
+                categoryBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.category === category) btn.classList.add('active');
+                });
+                
+                // Call loadProducts with the category parameter
+                const params = {};
+                if (category !== 'all') {
+                    params.category = category;
+                }
+                loadProducts(params);
+            }
+            
+            // Handle search
+            function handleSearch() {
+                const query = searchInput.value;
+                if (!query) {
+                    loadProducts(); // Load all products if search is empty
+                    return;
+                }
+                loadProducts({ search: query });
+            }
+            
+            // Show product detail
+            async function showProductDetail(itemId) {
+                try {
+                    const response = await fetch(`${API_URL}/api/items/${itemId}`);
+                    if (!response.ok) throw new Error('Could not find product details.');
+                    
+                    const product = await response.json();
+                    state.currentProduct = product;
+
+                    // Update the DOM with the fetched product details
+                    document.getElementById('product-title').textContent = product.title;
+                    document.getElementById('product-price').textContent = `KSH ${Number(product.price).toLocaleString()}`;
+                    document.getElementById('product-category').textContent = product.category;
+                    document.getElementById('product-full-description').textContent = product.description;
+                    document.getElementById('seller-name').textContent = `Name: ${product.seller_name}`;
+                    document.getElementById('seller-email').textContent = `Email: ${product.seller_email}`;
+                    document.getElementById('seller-phone').textContent = `Phone: ${product.seller_phone || 'Not provided'}`;
+                    document.getElementById('main-product-image').src = product.image_url;
+                    
+                    showPage('product-detail');
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
+            
+            // Handle image upload
+            function handleImageUpload() {
+                imagePreview.innerHTML = '';
+                const files = productImagesInput.files;
+                
+                if (files.length > 3) {
+                    alert('You can only upload up to 3 images');
+                    productImagesInput.value = '';
+                    return;
+                }
+                
+                for (let i = 0; i < Math.min(files.length, 3); i++) {
+                    const file = files[i];
+                    if (!file.type.match('image.*')) continue;
+                    
+                    const reader = new FileReader();
+                    reader.onload = (function(file) {
+                        return function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.height = '100px';
+                            img.style.margin = '5px';
+                            imagePreview.appendChild(img);
+                        };
+                    })(file);
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            // Handle product submission
+           // --- Replace your handleProductSubmit function with this ---
+
+            async function handleProductSubmit(e) {
+                e.preventDefault();
+                
+                // Get all form values
+                const title = document.getElementById('product-name').value;
+                const category = document.getElementById('product-category').value;
+                const price = parseFloat(document.getElementById('product-price').value);
+                const description = document.getElementById('product-description').value;
+                const imageFile = document.getElementById('product-images').files[0]; // We'll upload the first selected image
+
+                if (!title || !category || !price || !description) {
+                    return alert('Please fill in all text fields.');
+                }
+                if (!imageFile) {
+                    return alert('Please upload an image for the item.');
+                }
+
+                // Use FormData because we are sending a file
+                const formData = new FormData();
+                formData.append('title', title);
+                formData.append('category', category);
+                formData.append('price', price);
+                formData.append('description', description);
+                formData.append('quantity', 1); // Default quantity
+                formData.append('image', imageFile); // The key 'image' MUST match the backend middleware
+
+                try {
+                    const response = await fetch(`${API_URL}/api/items`, {
+                        method: 'POST',
+                        headers: {
+                            // DO NOT set Content-Type header. The browser will do it automatically for FormData.
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+
+                    // --- SUCCESS ---
+                    alert('Product posted successfully!');
+                    productForm.reset();
+                    imagePreview.innerHTML = '';
+                    showPage('dashboard'); // Go to dashboard to see the new item
+                } catch (error) {
+                    alert(`Post Product Error: ${error.message}`);
+                }
+            }
+            
+            // Handle contact form submission
+            function handleContactSubmit(e) {
+                e.preventDefault();
+                const message = document.getElementById('contact-message').value;
+                
+                if (!message) {
+                    alert('Please enter a message');
+                    return;
+                }
+                
+                // In a real app, this would send to the backend
+                alert(`Message sent to ${state.currentproduct.seller_name}:\n\n${message}`);
+                contactForm.reset();
+                contactModal.style.display = 'none';
+            }
+            
+            // Initialize the app
+            init();
+        });
+    </script>
+</body>
+</html>
