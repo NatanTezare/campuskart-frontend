@@ -666,6 +666,42 @@
                 }
             ];
             
+            // Add this new function to your script
+            function handleEmailVerification() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const verificationToken = urlParams.get('token');
+
+                // If a token is found in the URL, handle it
+                if (verificationToken) {
+                    // Show a simple verifying message to the user immediately
+                    document.body.innerHTML = '<h1>Verifying your email, please wait...</h1>';
+
+                    fetch(`${API_URL}/api/users/verify?token=${verificationToken}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                // If the backend returns an error (e.g., 400), throw an error
+                                throw new Error('Verification link is invalid or has expired.');
+                            }
+                            // Get the success message from the backend (e.g., "<h1>Email successfully verified!</h1>...")
+                            return response.text();
+                        })
+                        .then(successHtml => {
+                            // Display the success message from the backend
+                            document.body.innerHTML = successHtml;
+                            // Add a link to redirect the user to the main page to log in
+                            const mainPageUrl = window.location.origin + window.location.pathname;
+                            document.body.innerHTML += `<br><br><a href="${mainPageUrl}">Click here to go to the login page</a>`;
+                        })
+                        .catch(error => {
+                            document.body.innerHTML = `<h1>Verification Failed</h1><p>${error.message}</p>`;
+                        });
+                } else {
+                    // If there's no token, initialize the normal app
+                    init();
+                }
+            }
+
+            
             // Initialize the app
             function init() {
                 // Check if user is logged in (for demo purposes)
@@ -1056,7 +1092,7 @@
             }
             
             // Initialize the app
-            init();
+            handleEmailVerification();
         });
     </script>
 </body>
