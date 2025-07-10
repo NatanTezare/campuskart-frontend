@@ -424,54 +424,57 @@
             </footer>
         </div>
 
-        <!-- Product Detail Page (hidden by default) -->
-        <div id="product-detail-page" style="display: none;">
-            <header class="main-header">
-                <div class="logo">
-                    <h1>USIU Marketplace</h1>
-                </div>
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
-                        <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
-                        <li><a href="#" id="logout-btn-3">Logout</a></li>
-                    </ul>
-                </nav>
-            </header>
-            
-            <main class="container">
-                <a href="#" class="back-link" data-page="dashboard">← Back to Marketplace</a>
-                
-                <div class="product-detail">
-                    <div class="product-images" id="product-images">
-                        <div class="main-product-image">
-                            <img id="main-product-image" src="" alt="Product Image">
-                        </div>
-                        <div class="thumbnail-container" id="thumbnail-container">
-                            <!-- Thumbnails will be added here -->
-                        </div>
-                    </div>
-                    
-                    <div class="product-info">
-                        <h1 id="product-title">Product Title</h1>
-                        <p class="product-price" id="product-price">KSH 0</p>
-                        <p class="product-category" id="product-category">Category</p>
-                        
-                        <div class="seller-info">
-                            <h3>Seller Information</h3>
-                            <p id="seller-name">Name: </p>
-                            <p id="seller-email">Email: </p>
-                            <p id="seller-phone">Phone: </p>
-                        </div>
-                        
-                        <div class="product-description">
-                            <h3>Description</h3>
-                            <p id="product-full-description">No description available.</p>
-                        </div>                         
-                    </div>
-                </div>
-            </main>
+       <!-- Product Detail Page (hidden by default) -->
+<div id="product-detail-page" style="display: none;">
+    <header class="main-header">
+        <div class="logo">
+            <h1>USIU Marketplace</h1>
         </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
+                <li><a href="#" id="logout-btn-3">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <a href="#" class="back-link" data-page="dashboard">← Back to Marketplace</a>
+        
+        <div class="product-detail">
+            <div class="product-images">
+                <div class="main-product-image">
+                    <!-- ✅ Fix: ID should match JS --> 
+                    <img id="detail-main-image" src="" alt="Product Image">
+                </div>
+                <div class="thumbnail-container" id="thumbnail-container">
+                    <!-- Thumbnails will be added here -->
+                </div>
+            </div>
+            
+            <div class="product-info">
+                <!-- ✅ Fix: IDs must match JS -->
+                <h1 id="detail-title">Product Title</h1>
+                <p class="product-price" id="detail-price">KSH 0</p>
+                <p class="product-category" id="detail-category">Category</p>
+                
+                <div class="seller-info">
+                    <h3>Seller Information</h3>
+                    <p id="detail-seller-name">Name: </p>
+                    <p id="detail-seller-email">Email: </p>
+                    <p id="detail-seller-phone">Phone: </p>
+                </div>
+                
+                <div class="product-description">
+                    <h3>Description</h3>
+                    <p id="detail-full-description">No description available.</p>
+                </div>                         
+            </div>
+        </div>
+    </main>
+</div>
+
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
