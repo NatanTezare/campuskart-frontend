@@ -425,15 +425,21 @@
         </div>
 
         <div id="product-detail-page" style="display: none;">
-            <h2 id="detail-title"></h2>
-                <p id="detail-price"></p>
-                <p id="detail-category"></p>
-                <p id="detail-full-description"></p>
-                <p id="detail-seller-name"></p>
-                <p id="detail-seller-email"></p>
-                <p id="detail-seller-phone"></p>
-                <img id="detail-main-image" />
-                            </div>
+            <h1 id="product-title">Product Title</h1>
+                        <p class="product-price" id="product-price">KSH 0</p>
+                        <p class="product-category" id="product-category">Category</p>
+                        
+                        <div class="seller-info">
+                            <h3>Seller Information</h3>
+                            <p id="seller-name">Name: </p>
+                            <p id="seller-email">Email: </p>
+                            <p id="seller-phone">Phone: </p>
+                        </div>
+                        
+                        <div class="product-description">
+                            <h3>Description</h3>
+                            <p id="product-full-description">No description available.</p>
+        </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
