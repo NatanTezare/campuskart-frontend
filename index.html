@@ -495,7 +495,7 @@
                     
                     <div class="form-group">
                         <label for="product-images">Upload Images (Max 3)</label>
-                        <input type="file" id="product-images" accept="image/*" multiple>
+                        <input type="file" id="product-images" accept="image/*">
                         <div class="image-preview" id="image-preview"></div>
                     </div>
                     
@@ -549,27 +549,13 @@
                             <p id="product-full-description">No description available.</p>
                         </div>
                         
-                        <button class="btn-primary" id="contact-seller">Contact Seller</button>
+                        
                     </div>
                 </div>
             </main>
         </div>
         
-        <!-- Contact Modal -->
-        <div class="modal" id="contact-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Contact Seller</h2>
-                <form id="contact-form">
-                    <div class="form-group">
-                        <label for="contact-message">Your Message</label>
-                        <textarea id="contact-message" rows="4" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </div>
+      
 
     <script>
         // At the top of the <script> tag
@@ -727,7 +713,7 @@
                 loginForm.addEventListener('submit', handleLogin);
                 signupForm.addEventListener('submit', handleSignup);
                 productForm.addEventListener('submit', handleProductSubmit);
-                contactForm.addEventListener('submit', handleContactSubmit);
+                
                 
                 // Image upload preview
                 productImagesInput.addEventListener('change', handleImageUpload);
@@ -757,27 +743,16 @@
                     showPage(backLink.dataset.page);
                 });
                 
-                // Contact seller
-                contactSellerBtn.addEventListener('click', () => {
-                    contactModal.style.display = 'flex';
-                });
+               
                 
-                // Close modal
-                closeModal.addEventListener('click', () => {
-                    contactModal.style.display = 'none';
-                });
+               
                 
                 // Logout buttons
                 logoutBtns.forEach(btn => {
                     btn.addEventListener('click', handleLogout);
                 });
                 
-                // Close modal when clicking outside
-                window.addEventListener('click', (e) => {
-                    if (e.target === contactModal) {
-                        contactModal.style.display = 'none';
-                    }
-                });
+               
             }
             
             // Switch between login and signup tabs
