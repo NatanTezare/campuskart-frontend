@@ -428,6 +428,11 @@
                     <button class="btn-primary" id="search-btn">Search</button>
                 </div>
                 
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="dashboard">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li> <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
                 <div class="categories">
                     <button class="category-btn active" data-category="all">All</button>
                     <button class="category-btn" data-category="Books">Books</button>
@@ -470,6 +475,12 @@
                         <label for="product-name">Product Name</label>
                         <input type="text" id="product-name" required>
                     </div>
+
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="dashboard">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li> <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
+                        <li><a href="#" id="logout-btn">Logout</a></li>
+                    </ul>
                     
                     <div class="form-group">
                         <label for="product-category">Category</label>
@@ -503,6 +514,8 @@
                 </form>
             </main>
         </div>
+
+        <div id="my-listings-page" style="display: none;"></div>
         
         <!-- Product Detail Page (hidden by default) -->
         <div id="product-detail-page" style="display: none;">
@@ -743,7 +756,13 @@
                     showPage(backLink.dataset.page);
                 });
                 
-               
+               // My Listings Page
+               document.body.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('delete-item-btn')) {
+                        const itemId = e.target.dataset.id;
+                        handleDeleteItem(itemId);
+                    }
+                });
                 
                
                 
@@ -867,7 +886,11 @@
                 } else if (page === 'product-detail') {
                     productDetailPage.style.display = 'block';
                 }
-                
+                else if (page === 'my-listings') {
+                    myListingsPage.style.display = 'block';
+                    showMyListings();
+                }
+
                 // Update active nav links
                 navLinks.forEach(link => {
                     link.classList.remove('active');
@@ -916,6 +939,70 @@
                     productCard.addEventListener('click', () => showProductDetail(product.item_id));
                     productsContainer.appendChild(productCard);
                 });
+            }
+
+            // This function will be called when the user clicks "My Listings"
+            async function showMyListings() {
+                // You can reuse the dashboard's structure but give it a unique ID for the container
+                const myProductsContainer = document.getElementById('my-products-container'); // You'll need to add this div to your HTML
+                myProductsContainer.innerHTML = '<h2>Loading your listings...</h2>';
+
+                try {
+                    const response = await fetch(`${API_URL}/api/items/my-items`, {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    });
+                    if (!response.ok) throw new Error('Could not fetch your items.');
+                    const myItems = await response.json();
+                    renderMyItems(myItems, myProductsContainer);
+                } catch (error) {
+                    myProductsContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+                }
+            }
+
+            // Renders the items with Delete buttons
+            function renderMyItems(items, container) {
+                container.innerHTML = '<h2>My Listings</h2>';
+                if (items.length === 0) {
+                    container.innerHTML += '<p>You have not posted any items yet.</p>';
+                    return;
+                }
+
+                const grid = document.createElement('div');
+                grid.className = 'products-grid';
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-image"><img src="${item.image_url}" alt="${item.title}"></div>
+                        <div class="product-info">
+                            <h3>${item.title}</h3>
+                            <p class="product-price">KSH ${item.price}</p>
+                            <p>Status: ${item.listing_status}</p>
+                            <button class="delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                container.appendChild(grid);
+            }
+
+            // Function to handle deleting an item
+            async function handleDeleteItem(itemId) {
+                if (!confirm('Are you sure you want to delete this item? This cannot be undone.')) return;
+
+                try {
+                    const response = await fetch(`${API_URL}/api/items/${itemId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+
+                    alert('Item deleted successfully!');
+                    showMyListings(); // Refresh the list
+                } catch (error) {
+                    alert(`Error deleting item: ${error.message}`);
+                }
             }
             
             // Filter products by category
