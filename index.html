@@ -355,15 +355,57 @@
 </head>
 <body>
     <div id="app">
-        <div id="auth-page" class="auth-container" style="display: none;">
+        <div id="auth-page" class="auth-container"> <div class="logo" style="text-align: center; margin-bottom: 20px;">
+                <h1>USIU Marketplace</h1>
+                <p>Buy and sell within the USIU community</p>
             </div>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="login-tab">Login</button>
+                <button class="tab-btn" id="signup-tab">Sign Up</button>
+            </div>
+            
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-email">USIU Email (@usiu.ac.ke)</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">USIU Email (@usiu.ac.ke)</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-phone">Phone Number (Optional)</label>
+                    <input type="tel" id="signup-phone">
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+        </div>
         
         <div id="main-app-page" style="display: none;">
             <header class="main-header">
                 <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                    <div class="logo">
-                        <h1>USIU Marketplace</h1>
-                    </div>
+                    <div class="logo"><h1>USIU Marketplace</h1></div>
                     <nav class="main-nav">
                         <ul>
                             <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
@@ -375,458 +417,378 @@
                 </div>
             </header>
             
-            <main id="main-content" class="container">
-                </main>
+            <main id="main-content" class="container"></main>
             
             <footer class="main-footer" style="text-align: center; padding: 20px; margin-top: 30px;">
-                <p>&copy; 2023 USIU Marketplace. For USIU community only.</p>
+                <p>&copy; 2025 USIU Marketplace. For USIU community only.</p>
             </footer>
         </div>
 
         <div id="product-detail-page" style="display: none;">
-             </div>
+            </div>
     </div>
-
     <script>
-        // Your JavaScript goes here
-        
-        // At the top of the <script> tag
-        document.addEventListener('DOMContentLoaded', function() {
-         // API Configuration
+        document.addEventListener('DOMContentLoaded', () => {
+            // =================================================================
+            // 1. CONFIGURATION & STATE
+            // =================================================================
             const API_URL = 'https://campuskart-backend-unqp.onrender.com';
-            let authToken = localStorage.getItem('token'); // Load token from browser storage
+            let authToken = localStorage.getItem('token');
 
-            // State management
             const state = {
-                currentUser: null, // We'll populate this after login
+                currentUser: null,
                 products: [],
-                currentProduct: null,
             };
-            
-            // DOM Elements
+
+            // =================================================================
+            // 2. DOM ELEMENT SELECTORS (Static elements that always exist)
+            // =================================================================
+            const app = document.getElementById('app');
             const authPage = document.getElementById('auth-page');
-            const dashboardPage = document.getElementById('dashboard-page');
-            const postProductPage = document.getElementById('post-product-page');
+            const mainAppPage = document.getElementById('main-app-page');
+            const mainContent = document.getElementById('main-content');
             const productDetailPage = document.getElementById('product-detail-page');
             
-            // Auth Elements
             const loginTab = document.getElementById('login-tab');
             const signupTab = document.getElementById('signup-tab');
             const loginForm = document.getElementById('login-form');
             const signupForm = document.getElementById('signup-form');
-            
-            // Dashboard Elements
-            const productsContainer = document.getElementById('products-container');
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            const searchInput = document.getElementById('search-input');
-            const searchBtn = document.getElementById('search-btn');
-            
-            // Post Product Elements
-            const productForm = document.getElementById('product-form');
-            const productImagesInput = document.getElementById('product-images');
-            const imagePreview = document.getElementById('image-preview');
-            
-            // Product Detail Elements
-            const backLink = document.querySelector('.back-link');
-            const contactSellerBtn = document.getElementById('contact-seller');
-            
-            // Modal Elements
-            const contactModal = document.getElementById('contact-modal');
-            const closeModal = document.querySelector('.close-modal');
-            const contactForm = document.getElementById('contact-form');
-            
-            // Navigation Links
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            // Logout Buttons
-            const logoutBtns = document.querySelectorAll('[id^="logout-btn"]');
-            
-            // Sample data for demonstration
-            const sampleProducts = [
-                {
-                    id: 1,
-                    name: "Calculus Textbook",
-                    price: 1500,
-                    category: "Books",
-                    description: "Calculus textbook for MATH 121, barely used.",
-                    images: ['https://via.placeholder.com/300x400?text=Calculus+Textbook'],
-                    seller: {
-                        name: "John Doe",
-                        email: "j.doe@usiu.ac.ke",
-                        phone: "0712345678"
-                    }
-                },
-                {
-                    id: 2,
-                    name: "Laptop Stand",
-                    price: 1200,
-                    category: "Electronics",
-                    description: "Adjustable laptop stand in excellent condition.",
-                    images: ['https://via.placeholder.com/400x300?text=Laptop+Stand'],
-                    seller: {
-                        name: "Jane Smith",
-                        email: "j.smith@usiu.ac.ke",
-                        phone: "0723456789"
-                    }
-                },
-                {
-                    id: 3,
-                    name: "Desk Chair",
-                    price: 3500,
-                    category: "Furniture",
-                    description: "Comfortable office chair with good back support.",
-                    images: ['https://via.placeholder.com/400x400?text=Desk+Chair'],
-                    seller: {
-                        name: "Mike Johnson",
-                        email: "m.johnson@usiu.ac.ke",
-                        phone: "0734567890"
-                    }
-                }
-            ];
-            
-            // Add this new function to your script
+
+            // =================================================================
+            // 3. CORE APP LOGIC (Routing, Initialization)
+            // =================================================================
+
+            // This is the main entry point when the page loads
             function handleEmailVerification() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const verificationToken = urlParams.get('token');
 
-                // If a token is found in the URL, handle it
                 if (verificationToken) {
-                    // Show a simple verifying message to the user immediately
+                    // A token is in the URL, so verify it
                     document.body.innerHTML = '<h1>Verifying your email, please wait...</h1>';
-
                     fetch(`${API_URL}/api/users/verify?token=${verificationToken}`)
                         .then(response => {
-                            if (!response.ok) {
-                                // If the backend returns an error (e.g., 400), throw an error
-                                throw new Error('Verification link is invalid or has expired.');
-                            }
-                            // Get the success message from the backend (e.g., "<h1>Email successfully verified!</h1>...")
+                            if (!response.ok) throw new Error('Verification link is invalid or has expired.');
                             return response.text();
                         })
                         .then(successHtml => {
-                            // Display the success message from the backend
                             document.body.innerHTML = successHtml;
-                            // Add a link to redirect the user to the main page to log in
                             const mainPageUrl = window.location.origin + window.location.pathname;
-                            document.body.innerHTML += `<br><br><a href="${mainPageUrl}">Click here to go to the login page</a>`;
+                            document.body.innerHTML += `<br><br><a href="${mainPageUrl}" style="color: var(--usiu-blue); font-weight: bold;">Click here to go to the login page</a>`;
                         })
                         .catch(error => {
                             document.body.innerHTML = `<h1>Verification Failed</h1><p>${error.message}</p>`;
                         });
                 } else {
-                    // If there's no token, initialize the normal app
+                    // No token, start the app normally
                     init();
                 }
             }
 
-            
-            // Initialize the app
+            // Initializes the app state based on whether a user is logged in
             function init() {
-                // Check if user is logged in (for demo purposes)
-                const loggedInUser = localStorage.getItem('usiuMarketplaceUser');
-                if (loggedInUser) {
-                    state.currentUser = JSON.parse(loggedInUser);
+                if (authToken) {
                     showPage('dashboard');
-                    loadProducts();
                 } else {
                     showPage('auth');
                 }
-                
                 setupEventListeners();
             }
-            
-            // Set up all event listeners
+
+            // Controls which main view is visible and what content is loaded
+            function showPage(page) {
+                authPage.style.display = 'none';
+                mainAppPage.style.display = 'none';
+                productDetailPage.style.display = 'none';
+
+                if (page === 'auth') {
+                    authPage.style.display = 'block';
+                } else if (page === 'product-detail') {
+                    productDetailPage.style.display = 'block';
+                } else {
+                    mainAppPage.style.display = 'block';
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.toggle('active', link.dataset.page === page);
+                    });
+                    if (page === 'dashboard') loadProducts();
+                    else if (page === 'my-listings') showMyListings();
+                    else if (page === 'post-product') renderProductForm();
+                }
+            }
+
+            // =================================================================
+            // 4. EVENT LISTENERS
+            // =================================================================
+
+            // Sets up all the event listeners for the application
             function setupEventListeners() {
-                // Auth tab switching
+                // --- Static Listeners (for elements that always exist) ---
                 loginTab.addEventListener('click', () => switchAuthTab('login'));
                 signupTab.addEventListener('click', () => switchAuthTab('signup'));
-                
-                // Form submissions
                 loginForm.addEventListener('submit', handleLogin);
                 signupForm.addEventListener('submit', handleSignup);
-                productForm.addEventListener('submit', handleProductSubmit);
                 
-                
-                // Image upload preview
-                productImagesInput.addEventListener('change', handleImageUpload);
-                
-                // Category filtering
-                categoryBtns.forEach(btn => {
-                    btn.addEventListener('click', () => filterProducts(btn.dataset.category));
-                });
-                
-                // Search functionality
-                searchBtn.addEventListener('click', handleSearch);
-                searchInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') handleSearch();
-                });
-                
-                // Navigation
-                navLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
+                // Use event delegation for nav links since they exist in multiple headers
+                app.addEventListener('click', (e) => {
+                    if (e.target.matches('.nav-link')) {
                         e.preventDefault();
-                        showPage(link.dataset.page);
-                    });
+                        showPage(e.target.dataset.page);
+                    }
+                    if (e.target.matches('#logout-btn') || e.target.matches('#logout-btn-detail')) {
+                        e.preventDefault();
+                        handleLogout();
+                    }
+                    if (e.target.matches('.back-link')) {
+                        e.preventDefault();
+                        showPage('dashboard');
+                    }
                 });
-                
-                // Back link
-                backLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showPage(backLink.dataset.page);
-                });
-                
-               // My Listings Page
-               document.body.addEventListener('click', function(e) {
-                    if (e.target.classList.contains('delete-item-btn')) {
+
+                // --- Delegated Listeners (for dynamic content) ---
+                mainContent.addEventListener('click', (e) => {
+                    // Listener for dynamic search button
+                    if (e.target.matches('#search-btn')) {
+                        const query = mainContent.querySelector('#search-input').value;
+                        loadProducts({ search: query });
+                    }
+                    // Listener for dynamic category buttons
+                    if (e.target.matches('.category-btn')) {
+                        const category = e.target.dataset.category;
+                        loadProducts(category === 'all' ? {} : { category });
+                    }
+                    // Listener for dynamic delete buttons
+                    if (e.target.matches('.delete-item-btn')) {
                         const itemId = e.target.dataset.id;
                         handleDeleteItem(itemId);
                     }
                 });
-                
-               
-                
-                // Logout buttons
-                logoutBtns.forEach(btn => {
-                    btn.addEventListener('click', handleLogout);
+
+                // Listener for dynamic "Post Item" form
+                mainContent.addEventListener('submit', (e) => {
+                    if (e.target.matches('#product-form')) {
+                        handleProductSubmit(e);
+                    }
                 });
-                
-               
             }
+
+            // =================================================================
+            // 5. AUTHENTICATION & USER FUNCTIONS
+            // =================================================================
             
-            // Switch between login and signup tabs
-            function switchAuthTab(tab) {
-                if (tab === 'login') {
-                    loginTab.classList.add('active');
-                    signupTab.classList.remove('active');
-                    loginForm.classList.add('active');
-                    signupForm.classList.remove('active');
-                } else {
-                    loginTab.classList.remove('active');
-                    signupTab.classList.add('active');
-                    loginForm.classList.remove('active');
-                    signupForm.classList.add('active');
-                }
-            }
-            
-            // Handle login
-            // In handleLogin function
-            // --- Replace your handleLogin, handleSignup, and handleLogout functions with these ---
-
-            async function handleLogin(e) {
-                e.preventDefault();
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-
-                try {
-                    const response = await fetch(`${API_URL}/api/users/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ usiuEmail: email, password: password })
-                    });
-                    const data = await response.json();
-                    if (!response.ok) throw new Error(data.message);
-
-                    // --- SUCCESS ---
-                    alert('Login successful!');
-                    authToken = data.token;
-                    state.currentUser = data.user;
-                    localStorage.setItem('token', authToken); // Save token for future sessions
-                    showPage('dashboard');
-                } catch (error) {
-                    alert(`Login Error: ${error.message}`);
-                }
-            }
-
             async function handleSignup(e) {
                 e.preventDefault();
-                const name = document.getElementById('signup-name').value;
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-                const confirmPassword = document.getElementById('signup-confirm').value;
-                const phone = document.getElementById('signup-phone').value; // Get the phone number
-
+                const name = signupForm.querySelector('#signup-name').value;
+                const email = signupForm.querySelector('#signup-email').value;
+                const password = signupForm.querySelector('#signup-password').value;
+                const confirmPassword = signupForm.querySelector('#signup-confirm').value;
+                const phone = signupForm.querySelector('#signup-phone').value;
                 if (password !== confirmPassword) return alert('Passwords do not match');
-
-                // Split name into first and last
                 const nameParts = name.trim().split(' ');
                 const firstName = nameParts[0];
                 const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-
                 try {
                     const response = await fetch(`${API_URL}/api/users/register`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            firstName: firstName,
-                            lastName: lastName,
-                            usiuEmail: email,
-                            password: password,
-                            phone_number: phone // Send phone number to the backend
-                        })
+                        body: JSON.stringify({ firstName, lastName, usiuEmail: email, password, phone_number: phone })
                     });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
-
-                    // --- SUCCESS ---
                     alert('Signup successful! Please check your email to verify your account.');
                     signupForm.reset();
-                    switchAuthTab('login'); // Move user to the login tab
+                    switchAuthTab('login');
                 } catch (error) {
                     alert(`Signup Error: ${error.message}`);
                 }
             }
 
+            async function handleLogin(e) {
+                e.preventDefault();
+                const email = loginForm.querySelector('#login-email').value;
+                const password = loginForm.querySelector('#login-password').value;
+                try {
+                    const response = await fetch(`${API_URL}/api/users/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ usiuEmail: email, password })
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+                    alert('Login successful!');
+                    authToken = data.token;
+                    localStorage.setItem('token', authToken);
+                    showPage('dashboard');
+                } catch (error) {
+                    alert(`Login Error: ${error.message}`);
+                }
+            }
+            
             function handleLogout() {
                 authToken = null;
-                state.currentUser = null;
                 localStorage.removeItem('token');
                 showPage('auth');
                 alert('You have been logged out.');
             }
-            
-            // Show specific page
-            // --- Replace this function ---
-            function showPage(page) {
-                // Hide everything first
-                authPage.style.display = 'none';
-                mainAppPage.style.display = 'none';
-                productDetailPage.style.display = 'none';
 
-                // Update active class on nav links
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.toggle('active', link.dataset.page === page);
-                });
-
-                if (page === 'auth') {
-                    authPage.style.display = 'block';
-                } else {
-                    // For any other page, show the main app container
-                    mainAppPage.style.display = 'block';
-
-                    // Now, decide what content to load into the main content area
-                    if (page === 'dashboard') {
-                        loadProducts(); // This will render all products
-                    } else if (page === 'my-listings') {
-                        showMyListings(); // This will render the user's items
-                    } else if (page === 'post-product') {
-                        renderProductForm(); // This will render the sell item form
-                    }
-                }
+            function switchAuthTab(tab) {
+                loginTab.classList.toggle('active', tab === 'login');
+                signupTab.classList.toggle('active', tab === 'signup');
+                loginForm.classList.toggle('active', tab === 'login');
+                signupForm.classList.toggle('active', tab === 'signup');
             }
-            
-            // Load products
+
+            // =================================================================
+            // 6. API & RENDER FUNCTIONS (For content)
+            // =================================================================
+
             async function loadProducts(params = {}) {
+                mainContent.innerHTML = '<h2>Loading products...</h2>';
                 const query = new URLSearchParams(params).toString();
-                const url = `${API_URL}/api/items?${query}`;
                 try {
-                    const response = await fetch(url);
+                    const response = await fetch(`${API_URL}/api/items?${query}`);
                     if (!response.ok) throw new Error('Failed to fetch products');
-                    state.products = await response.json();
-                    renderProducts(state.products);
-                } catch (error) {
-                    productsContainer.innerHTML = `<p>Error: ${error.message}. Could not load products.</p>`;
-                }
-            }
-
-            function renderProductForm() {
-                const mainContent = document.getElementById('main-content');
-                mainContent.innerHTML = `
-                    <h2>Post a New Item</h2>
-                    <form id="product-form" class="product-form">
-                        <div class="form-group">
-                            <label for="product-name">Product Name</label>
-                            <input type="text" id="product-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-category">Category</label>
-                            <select id="product-category" required>
-                                <option value="">Select a category</option>
-                                <option value="Books">Books</option>
-                                <option value="Electronics">Electronics</option>
-                                <option value="Furniture">Furniture</option>
-                                <option value="Clothing">Clothing</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-price">Price (KSH)</label>
-                            <input type="number" id="product-price" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-description">Description</label>
-                            <textarea id="product-description" rows="4" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-images">Upload Image</label>
-                            <input type="file" id="product-images" accept="image/*">
-                            <div class="image-preview" id="image-preview"></div>
-                        </div>
-                        <button type="submit" class="btn-primary">Post Item</button>
-                    </form>
-                `;
-                // Re-attach event listener for the newly created form
-                document.getElementById('product-form').addEventListener('submit', handleProductSubmit);
-            }
-
-
-            
-            // Render products to the dashboard
-            // UPDATE renderProducts to target the main content area
-            function renderProducts(products) {
-                const mainContent = document.getElementById('main-content');
-                mainContent.innerHTML = `
-                    <div class="search-bar">
-                        <input type="text" placeholder="Search products..." id="search-input">
-                        <button class="btn-primary" id="search-btn">Search</button>
-                    </div>
-                    <div class="categories">
-                        </div>
-                    <div class="products-grid" id="products-container"></div>
-                `;
-                // Re-attach search and category event listeners
-                document.getElementById('search-btn').addEventListener('click', handleSearch);
-                // ... add listeners for category buttons ...
-
-                const productsContainer = document.getElementById('products-container');
-                // The rest of your renderProducts logic goes here...
-            }
-
-            // UPDATE showMyListings to use the main content area
-            async function showMyListings() {
-                const mainContent = document.getElementById('main-content');
-                mainContent.innerHTML = '<h2>Loading your listings...</h2>';
-
-                try {
-                    const response = await fetch(`${API_URL}/api/items/my-items`, {
-                        headers: { 'Authorization': `Bearer ${authToken}` }
-                    });
-                    if (!response.ok) throw new Error('Could not fetch your items.');
-                    const myItems = await response.json();
-                    renderMyItems(myItems, mainContent); // Pass mainContent as the container
+                    const products = await response.json();
+                    renderProducts(products);
                 } catch (error) {
                     mainContent.innerHTML = `<p>Error: ${error.message}</p>`;
                 }
             }
+            
+            function renderProducts(products) {
+                mainContent.innerHTML = `
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search for books, electronics..." id="search-input">
+                        <button class="btn-primary" id="search-btn">Search</button>
+                    </div>
+                    <div class="categories" id="categories-container">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="Books">Books</button>
+                        <button class="category-btn" data-category="Electronics">Electronics</button>
+                        <button class="category-btn" data-category="Furniture">Furniture</button>
+                        <button class="category-btn" data-category="Clothing">Clothing</button>
+                        <button class="category-btn" data-category="Other">Other</button>
+                    </div>
+                    <div class="products-grid" id="products-container"></div>`;
+                const container = mainContent.querySelector('#products-container');
+                if (products.length === 0) {
+                    container.innerHTML = '<p>No products found matching your criteria.</p>';
+                    return;
+                }
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-image"><img src="${product.image_url}" alt="${product.title}"></div>
+                        <div class="product-info">
+                            <h3>${product.title}</h3>
+                            <p class="product-price">KSH ${product.price.toLocaleString()}</p>
+                            <p class="product-category">${product.category}</p>
+                        </div>`;
+                    card.addEventListener('click', () => showProductDetail(product.item_id));
+                    container.appendChild(card);
+                });
+            }
 
-            // renderMyItems is almost correct, just needs to take the container as an argument
-            function renderMyItems(items, container) {
-                container.innerHTML = '<h2>My Listings</h2>';
+            async function showMyListings() {
+                mainContent.innerHTML = '<h2>Loading your listings...</h2>';
+                try {
+                    const response = await fetch(`${API_URL}/api/items/my-items`, { headers: { 'Authorization': `Bearer ${authToken}` } });
+                    if (!response.ok) throw new Error('Could not fetch your items.');
+                    const myItems = await response.json();
+                    renderMyItems(myItems);
+                } catch (error) {
+                    mainContent.innerHTML = `<p>Error: ${error.message}</p>`;
+                }
+            }
+            
+            function renderMyItems(items) {
+                mainContent.innerHTML = '<h2>My Listings</h2>';
                 if (items.length === 0) {
-                    container.innerHTML += '<p>You have not posted any items yet.</p>';
+                    mainContent.innerHTML += '<p>You have not posted any items yet. Click "Sell Item" to get started!</p>';
                     return;
                 }
                 const grid = document.createElement('div');
                 grid.className = 'products-grid';
                 items.forEach(item => {
-                    // ... your card creation logic is correct ...
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-image"><img src="${item.image_url}" alt="${item.title}"></div>
+                        <div class="product-info">
+                            <h3>${item.title}</h3>
+                            <p class="product-price">KSH ${item.price.toLocaleString()}</p>
+                            <p>Status: ${item.listing_status}</p>
+                            <button class="delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
+                        </div>`;
+                    grid.appendChild(card);
                 });
-                container.appendChild(grid);
+                mainContent.appendChild(grid);
             }
 
-            // Function to handle deleting an item
-            async function handleDeleteItem(itemId) {
-                if (!confirm('Are you sure you want to delete this item? This cannot be undone.')) return;
+            function renderProductForm() {
+                mainContent.innerHTML = `
+                    <h2>Post a New Item</h2>
+                    <form id="product-form">
+                        <div class="form-group"><label>Product Name</label><input type="text" id="product-name" required></div>
+                        <div class="form-group"><label>Category</label><select id="product-category" required><option value="">Select a category</option><option value="Books">Books</option><option value="Electronics">Electronics</option><option value="Furniture">Furniture</option><option value="Clothing">Clothing</option><option value="Other">Other</option></select></div>
+                        <div class="form-group"><label>Price (KSH)</label><input type="number" id="product-price" min="0" required></div>
+                        <div class="form-group"><label>Description</label><textarea id="product-description" rows="4" required></textarea></div>
+                        <div class="form-group"><label>Upload Image</label><input type="file" id="product-images" accept="image/*" required></div>
+                        <button type="submit" class="btn-primary">Post Item</button>
+                    </form>`;
+            }
+            
+            async function showProductDetail(itemId) {
+                try {
+                    const response = await fetch(`${API_URL}/api/items/${itemId}`);
+                    if (!response.ok) throw new Error('Product not found.');
+                    const product = await response.json();
+                    
+                    productDetailPage.querySelector('#detail-title').textContent = product.title;
+                    productDetailPage.querySelector('#detail-price').textContent = `KSH ${Number(product.price).toLocaleString()}`;
+                    productDetailPage.querySelector('#detail-category').textContent = product.category;
+                    productDetailPage.querySelector('#detail-full-description').textContent = product.description;
+                    productDetailPage.querySelector('#detail-seller-name').textContent = `Name: ${product.seller_name}`;
+                    productDetailPage.querySelector('#detail-seller-email').textContent = `Email: ${product.seller_email}`;
+                    productDetailPage.querySelector('#detail-seller-phone').textContent = `Phone: ${product.seller_phone || 'Not provided'}`;
+                    productDetailPage.querySelector('#detail-main-image').src = product.image_url;
+                    
+                    showPage('product-detail');
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
 
+            async function handleProductSubmit(e) {
+                e.preventDefault();
+                const form = e.target;
+                const imageFile = form.querySelector('#product-images').files[0];
+                if (!imageFile) return alert('An image is required.');
+                
+                const formData = new FormData();
+                formData.append('title', form.querySelector('#product-name').value);
+                formData.append('category', form.querySelector('#product-category').value);
+                formData.append('price', form.querySelector('#product-price').value);
+                formData.append('description', form.querySelector('#product-description').value);
+                formData.append('image', imageFile);
+
+                try {
+                    const response = await fetch(`${API_URL}/api/items`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${authToken}` },
+                        body: formData
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+                    alert('Product posted successfully!');
+                    showPage('dashboard');
+                } catch (error) {
+                    alert(`Post Product Error: ${error.message}`);
+                }
+            }
+            
+            async function handleDeleteItem(itemId) {
+                if (!confirm('Are you sure you want to delete this item?')) return;
                 try {
                     const response = await fetch(`${API_URL}/api/items/${itemId}`, {
                         method: 'DELETE',
@@ -834,165 +796,20 @@
                     });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
-
                     alert('Item deleted successfully!');
                     showMyListings(); // Refresh the list
                 } catch (error) {
                     alert(`Error deleting item: ${error.message}`);
                 }
             }
-            
-            // Filter products by category
-            function filterProducts(category) {
-                // Update active category button UI
-                categoryBtns.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.category === category) btn.classList.add('active');
-                });
-                
-                // Call loadProducts with the category parameter
-                const params = {};
-                if (category !== 'all') {
-                    params.category = category;
-                }
-                loadProducts(params);
-            }
-            
-            // Handle search
-            function handleSearch() {
-                const query = searchInput.value;
-                if (!query) {
-                    loadProducts(); // Load all products if search is empty
-                    return;
-                }
-                loadProducts({ search: query });
-            }
-            
-            // Show product detail
-            async function showProductDetail(itemId) {
-                try {
-                    const response = await fetch(`${API_URL}/api/items/${itemId}`);
-                    if (!response.ok) throw new Error('Could not find product details.');
-                    
-                    const product = await response.json();
-                    state.currentProduct = product;
 
-                    // Update the DOM with the fetched product details
-                    document.getElementById('product-title').textContent = product.title;
-                    document.getElementById('product-price').textContent = `KSH ${Number(product.price).toLocaleString()}`;
-                    document.getElementById('product-category').textContent = product.category;
-                    document.getElementById('product-full-description').textContent = product.description;
-                    document.getElementById('seller-name').textContent = `Name: ${product.seller_name}`;
-                    document.getElementById('seller-email').textContent = `Email: ${product.seller_email}`;
-                    document.getElementById('seller-phone').textContent = `Phone: ${product.seller_phone || 'Not provided'}`;
-                    document.getElementById('main-product-image').src = product.image_url;
-                    
-                    showPage('product-detail');
-                } catch (error) {
-                    alert(`Error: ${error.message}`);
-                }
-            }
-            
-            // Handle image upload
-            function handleImageUpload() {
-                imagePreview.innerHTML = '';
-                const files = productImagesInput.files;
-                
-                if (files.length > 3) {
-                    alert('You can only upload up to 3 images');
-                    productImagesInput.value = '';
-                    return;
-                }
-                
-                for (let i = 0; i < Math.min(files.length, 3); i++) {
-                    const file = files[i];
-                    if (!file.type.match('image.*')) continue;
-                    
-                    const reader = new FileReader();
-                    reader.onload = (function(file) {
-                        return function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.style.height = '100px';
-                            img.style.margin = '5px';
-                            imagePreview.appendChild(img);
-                        };
-                    })(file);
-                    reader.readAsDataURL(file);
-                }
-            }
-            
-            // Handle product submission
-           // --- Replace your handleProductSubmit function with this ---
-
-            async function handleProductSubmit(e) {
-                e.preventDefault();
-                
-                // Get all form values
-                const title = document.getElementById('product-name').value;
-                const category = document.getElementById('product-category').value;
-                const price = parseFloat(document.getElementById('product-price').value);
-                const description = document.getElementById('product-description').value;
-                const imageFile = document.getElementById('product-images').files[0]; // We'll upload the first selected image
-
-                if (!title || !category || !price || !description) {
-                    return alert('Please fill in all text fields.');
-                }
-                if (!imageFile) {
-                    return alert('Please upload an image for the item.');
-                }
-
-                // Use FormData because we are sending a file
-                const formData = new FormData();
-                formData.append('title', title);
-                formData.append('category', category);
-                formData.append('price', price);
-                formData.append('description', description);
-                formData.append('quantity', 1); // Default quantity
-                formData.append('image', imageFile); // The key 'image' MUST match the backend middleware
-
-                try {
-                    const response = await fetch(`${API_URL}/api/items`, {
-                        method: 'POST',
-                        headers: {
-                            // DO NOT set Content-Type header. The browser will do it automatically for FormData.
-                            'Authorization': `Bearer ${authToken}`
-                        },
-                        body: formData
-                    });
-
-                    const data = await response.json();
-                    if (!response.ok) throw new Error(data.message);
-
-                    // --- SUCCESS ---
-                    alert('Product posted successfully!');
-                    productForm.reset();
-                    imagePreview.innerHTML = '';
-                    showPage('dashboard'); // Go to dashboard to see the new item
-                } catch (error) {
-                    alert(`Post Product Error: ${error.message}`);
-                }
-            }
-            
-            // Handle contact form submission
-            function handleContactSubmit(e) {
-                e.preventDefault();
-                const message = document.getElementById('contact-message').value;
-                
-                if (!message) {
-                    alert('Please enter a message');
-                    return;
-                }
-                
-                // In a real app, this would send to the backend
-                alert(`Message sent to ${state.currentproduct.seller_name}:\n\n${message}`);
-                contactForm.reset();
-                contactModal.style.display = 'none';
-            }
-            
-            // Initialize the app
+            // =================================================================
+            // 7. START THE APPLICATION
+            // =================================================================
             handleEmailVerification();
         });
-   </script>
+    </script>
+
+    
 </body>
 </html>
