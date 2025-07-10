@@ -354,223 +354,42 @@
     </style>
 </head>
 <body>
-    <!-- Main App Container -->
     <div id="app">
-        <!-- Auth Page (shown by default) -->
-        <div id="auth-page" class="auth-container">
-            <div class="logo">
-                <h1>USIU Marketplace</h1>
-                <p>Buy and sell within the USIU community</p>
+        <div id="auth-page" class="auth-container" style="display: none;">
             </div>
-            
-            <div class="auth-tabs">
-                <button class="tab-btn active" id="login-tab">Login</button>
-                <button class="tab-btn" id="signup-tab">Sign Up</button>
-            </div>
-            
-            <!-- Login Form -->
-            <form id="login-form" class="auth-form active">
-                <div class="form-group">
-                    <label for="login-email">USIU Email (@usiu.ac.ke)</label>
-                    <input type="email" id="login-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" required>
-                </div>
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-            
-            <!-- Signup Form -->
-            <form id="signup-form" class="auth-form">
-                <div class="form-group">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-email">USIU Email (@usiu.ac.ke)</label>
-                    <input type="email" id="signup-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-confirm">Confirm Password</label>
-                    <input type="password" id="signup-confirm" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-phone">Phone Number</label>
-                    <input type="tel" id="signup-phone">
-                </div>
-                <button type="submit" class="btn-primary">Create Account</button>
-            </form>
-        </div>
         
-        <!-- Dashboard Page (hidden by default) -->
-        <div id="dashboard-page" style="display: none;">
+        <div id="main-app-page" style="display: none;">
             <header class="main-header">
-                <div class="logo">
-                    <h1>USIU Marketplace</h1>
+                <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div class="logo">
+                        <h1>USIU Marketplace</h1>
+                    </div>
+                    <nav class="main-nav">
+                        <ul>
+                            <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
+                            <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li>
+                            <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
+                            <li><a href="#" id="logout-btn">Logout</a></li>
+                        </ul>
+                    </nav>
                 </div>
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="#" class="nav-link active" data-page="dashboard">Home</a></li>
-                        <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
-                        <li><a href="#" id="logout-btn">Logout</a></li>
-                    </ul>
-                </nav>
             </header>
             
-            <main class="container">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search products..." id="search-input">
-                    <button class="btn-primary" id="search-btn">Search</button>
-                </div>
-                
-                <ul>
-                    <li><a href="#" class="nav-link active" data-page="dashboard">Home</a></li>
-                    <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li> <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
-                    <li><a href="#" id="logout-btn">Logout</a></li>
-                </ul>
-                <div class="categories">
-                    <button class="category-btn active" data-category="all">All</button>
-                    <button class="category-btn" data-category="Books">Books</button>
-                    <button class="category-btn" data-category="Electronics">Electronics</button>
-                    <button class="category-btn" data-category="Furniture">Furniture</button>
-                    <button class="category-btn" data-category="Clothing">Clothing</button>
-                    <button class="category-btn" data-category="Other">Other</button>
-                </div>
-                
-                <div class="products-grid" id="products-container">
-                    <!-- Products will be loaded here via JavaScript -->
-                </div>
-            </main>
+            <main id="main-content" class="container">
+                </main>
             
-            <footer class="main-footer">
+            <footer class="main-footer" style="text-align: center; padding: 20px; margin-top: 30px;">
                 <p>&copy; 2023 USIU Marketplace. For USIU community only.</p>
             </footer>
         </div>
-        
-        <!-- Post Product Page (hidden by default) -->
-        <div id="post-product-page" style="display: none;">
-            <header class="main-header">
-                <div class="logo">
-                    <h1>USIU Marketplace</h1>
-                </div>
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
-                        <li><a href="#" class="nav-link active" data-page="post-product">Sell Item</a></li>
-                        <li><a href="#" id="logout-btn-2">Logout</a></li>
-                    </ul>
-                </nav>
-            </header>
-            
-            <main class="container">
-                <h2>Post a New Item</h2>
-                
-                <form id="product-form" class="product-form">
-                    <div class="form-group">
-                        <label for="product-name">Product Name</label>
-                        <input type="text" id="product-name" required>
-                    </div>
 
-                    <ul>
-                        <li><a href="#" class="nav-link active" data-page="dashboard">Home</a></li>
-                        <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li> <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
-                        <li><a href="#" id="logout-btn">Logout</a></li>
-                    </ul>
-                    
-                    <div class="form-group">
-                        <label for="product-category">Category</label>
-                        <select id="product-category" required>
-                            <option value="">Select a category</option>
-                            <option value="Books">Books</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Furniture">Furniture</option>
-                            <option value="Clothing">Clothing</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="product-price">Price (KSH)</label>
-                        <input type="number" id="product-price" min="0" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="product-description">Description</label>
-                        <textarea id="product-description" rows="4" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="product-images">Upload Images (Max 3)</label>
-                        <input type="file" id="product-images" accept="image/*">
-                        <div class="image-preview" id="image-preview"></div>
-                    </div>
-                    
-                    <button type="submit" class="btn-primary">Post Item</button>
-                </form>
-            </main>
-        </div>
-
-        <div id="my-listings-page" style="display: none;"></div>
-        
-        <!-- Product Detail Page (hidden by default) -->
         <div id="product-detail-page" style="display: none;">
-            <header class="main-header">
-                <div class="logo">
-                    <h1>USIU Marketplace</h1>
-                </div>
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
-                        <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
-                        <li><a href="#" id="logout-btn-3">Logout</a></li>
-                    </ul>
-                </nav>
-            </header>
-            
-            <main class="container">
-                <a href="#" class="back-link" data-page="dashboard">← Back to Marketplace</a>
-                
-                <div class="product-detail">
-                    <div class="product-images" id="product-images">
-                        <div class="main-product-image">
-                            <img id="main-product-image" src="" alt="Product Image">
-                        </div>
-                        <div class="thumbnail-container" id="thumbnail-container">
-                            <!-- Thumbnails will be added here -->
-                        </div>
-                    </div>
-                    
-                    <div class="product-info">
-                        <h1 id="product-title">Product Title</h1>
-                        <p class="product-price" id="product-price">KSH 0</p>
-                        <p class="product-category" id="product-category">Category</p>
-                        
-                        <div class="seller-info">
-                            <h3>Seller Information</h3>
-                            <p id="seller-name">Name: </p>
-                            <p id="seller-email">Email: </p>
-                            <p id="seller-phone">Phone: </p>
-                        </div>
-                        
-                        <div class="product-description">
-                            <h3>Description</h3>
-                            <p id="product-full-description">No description available.</p>
-                        </div>
-                        
-                        
-                    </div>
-                </div>
-            </main>
-        </div>
-        
-      
+             </div>
+    </div>
 
     <script>
+        // Your JavaScript goes here
+        
         // At the top of the <script> tag
         document.addEventListener('DOMContentLoaded', function() {
          // API Configuration
@@ -866,38 +685,33 @@
             }
             
             // Show specific page
+            // --- Replace this function ---
             function showPage(page) {
-                state.currentPage = page;
-                
-                // Hide all pages
+                // Hide everything first
                 authPage.style.display = 'none';
-                dashboardPage.style.display = 'none';
-                postProductPage.style.display = 'none';
+                mainAppPage.style.display = 'none';
                 productDetailPage.style.display = 'none';
-                
-                // Show the requested page
+
+                // Update active class on nav links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.toggle('active', link.dataset.page === page);
+                });
+
                 if (page === 'auth') {
                     authPage.style.display = 'block';
-                } else if (page === 'dashboard') {
-                    dashboardPage.style.display = 'block';
-                    loadProducts();
-                } else if (page === 'post-product') {
-                    postProductPage.style.display = 'block';
-                } else if (page === 'product-detail') {
-                    productDetailPage.style.display = 'block';
-                }
-                else if (page === 'my-listings') {
-                    myListingsPage.style.display = 'block';
-                    showMyListings();
-                }
+                } else {
+                    // For any other page, show the main app container
+                    mainAppPage.style.display = 'block';
 
-                // Update active nav links
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.dataset.page === page) {
-                        link.classList.add('active');
+                    // Now, decide what content to load into the main content area
+                    if (page === 'dashboard') {
+                        loadProducts(); // This will render all products
+                    } else if (page === 'my-listings') {
+                        showMyListings(); // This will render the user's items
+                    } else if (page === 'post-product') {
+                        renderProductForm(); // This will render the sell item form
                     }
-                });
+                }
             }
             
             // Load products
@@ -914,38 +728,73 @@
                 }
             }
 
-            
-            // Render products to the dashboard
-            function renderProducts(products) {
-                productsContainer.innerHTML = '';
-                if (products.length === 0) {
-                    productsContainer.innerHTML = '<p>No products found.</p>';
-                    return;
-                }
-                products.forEach(product => {
-                    const productCard = document.createElement('div');
-                    productCard.className = 'product-card';
-                    // Use the field names from our API response
-                    productCard.innerHTML = `
-                        <div class="product-image">
-                            <img src="${product.image_url}" alt="${product.title}">
+            function renderProductForm() {
+                const mainContent = document.getElementById('main-content');
+                mainContent.innerHTML = `
+                    <h2>Post a New Item</h2>
+                    <form id="product-form" class="product-form">
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" required>
                         </div>
-                        <div class="product-info">
-                            <h3>${product.title}</h3>
-                            <p class="product-price">KSH ${product.price.toLocaleString()}</p>
-                            <p class="product-category">${product.category}</p>
+                        <div class="form-group">
+                            <label for="product-category">Category</label>
+                            <select id="product-category" required>
+                                <option value="">Select a category</option>
+                                <option value="Books">Books</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
-                    `;
-                    productCard.addEventListener('click', () => showProductDetail(product.item_id));
-                    productsContainer.appendChild(productCard);
-                });
+                        <div class="form-group">
+                            <label for="product-price">Price (KSH)</label>
+                            <input type="number" id="product-price" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-description">Description</label>
+                            <textarea id="product-description" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-images">Upload Image</label>
+                            <input type="file" id="product-images" accept="image/*">
+                            <div class="image-preview" id="image-preview"></div>
+                        </div>
+                        <button type="submit" class="btn-primary">Post Item</button>
+                    </form>
+                `;
+                // Re-attach event listener for the newly created form
+                document.getElementById('product-form').addEventListener('submit', handleProductSubmit);
             }
 
-            // This function will be called when the user clicks "My Listings"
+
+            
+            // Render products to the dashboard
+            // UPDATE renderProducts to target the main content area
+            function renderProducts(products) {
+                const mainContent = document.getElementById('main-content');
+                mainContent.innerHTML = `
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search products..." id="search-input">
+                        <button class="btn-primary" id="search-btn">Search</button>
+                    </div>
+                    <div class="categories">
+                        </div>
+                    <div class="products-grid" id="products-container"></div>
+                `;
+                // Re-attach search and category event listeners
+                document.getElementById('search-btn').addEventListener('click', handleSearch);
+                // ... add listeners for category buttons ...
+
+                const productsContainer = document.getElementById('products-container');
+                // The rest of your renderProducts logic goes here...
+            }
+
+            // UPDATE showMyListings to use the main content area
             async function showMyListings() {
-                // You can reuse the dashboard's structure but give it a unique ID for the container
-                const myProductsContainer = document.getElementById('my-products-container'); // You'll need to add this div to your HTML
-                myProductsContainer.innerHTML = '<h2>Loading your listings...</h2>';
+                const mainContent = document.getElementById('main-content');
+                mainContent.innerHTML = '<h2>Loading your listings...</h2>';
 
                 try {
                     const response = await fetch(`${API_URL}/api/items/my-items`, {
@@ -953,35 +802,23 @@
                     });
                     if (!response.ok) throw new Error('Could not fetch your items.');
                     const myItems = await response.json();
-                    renderMyItems(myItems, myProductsContainer);
+                    renderMyItems(myItems, mainContent); // Pass mainContent as the container
                 } catch (error) {
-                    myProductsContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+                    mainContent.innerHTML = `<p>Error: ${error.message}</p>`;
                 }
             }
 
-            // Renders the items with Delete buttons
+            // renderMyItems is almost correct, just needs to take the container as an argument
             function renderMyItems(items, container) {
                 container.innerHTML = '<h2>My Listings</h2>';
                 if (items.length === 0) {
                     container.innerHTML += '<p>You have not posted any items yet.</p>';
                     return;
                 }
-
                 const grid = document.createElement('div');
                 grid.className = 'products-grid';
                 items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.innerHTML = `
-                        <div class="product-image"><img src="${item.image_url}" alt="${item.title}"></div>
-                        <div class="product-info">
-                            <h3>${item.title}</h3>
-                            <p class="product-price">KSH ${item.price}</p>
-                            <p>Status: ${item.listing_status}</p>
-                            <button class="delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
-                        </div>
-                    `;
-                    grid.appendChild(card);
+                    // ... your card creation logic is correct ...
                 });
                 container.appendChild(grid);
             }
@@ -1156,6 +993,6 @@
             // Initialize the app
             handleEmailVerification();
         });
-    </script>
+   </script>
 </body>
 </html>
