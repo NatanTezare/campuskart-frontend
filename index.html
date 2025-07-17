@@ -596,6 +596,7 @@
 
                 // --- Delegated Listeners (for dynamic content) ---
                 mainContent.addEventListener('click', (e) => {
+                     console.log('A click happened inside mainContent. The target was:', e.target);
                     // Listener for dynamic search button
                     if (e.target.matches('#search-btn')) {
                         const query = mainContent.querySelector('#search-input').value;
@@ -613,6 +614,7 @@
                     }
                     // Listener for dynamic edit buttons
                     else if (e.target.matches('.edit-item-btn')) {
+                        console.log('Edit button was clicked!');
                         const itemId = e.target.dataset.id;
                         handleEditClick(itemId);
                     }
@@ -863,6 +865,99 @@
                     showMyListings(); // Refresh the list
                 } catch (error) {
                     alert(`Error deleting item: ${error.message}`);
+                }
+            }
+
+            // --- Add these three new functions to your script ---
+
+            // 1. Fetches an item's data and calls the function to render the edit form
+            async function handleEditClick(itemId) {
+                mainContent.innerHTML = '<h2>Loading item for editing...</h2>';
+                try {
+                    const response = await fetch(`${API_URL}/api/items/${itemId}`);
+                    if (!response.ok) throw new Error('Could not find item to edit.');
+                    const item = await response.json();
+                    renderEditForm(item);
+                } catch (error) {
+                    mainContent.innerHTML = `<p>Error: ${error.message}</p>`;
+                }
+            }
+
+            // 2. Renders the HTML form for editing an item, pre-filled with data
+            function renderEditForm(item) {
+                mainContent.innerHTML = `
+                    <h2>Edit Your Item</h2>
+                    <form id="edit-product-form" data-id="${item.item_id}">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" id="edit-product-name" value="${item.title}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="edit-product-category" required>
+                                <option ${item.category === 'Books' ? 'selected' : ''}>Books</option>
+                                <option ${item.category === 'Electronics' ? 'selected' : ''}>Electronics</option>
+                                <option ${item.category === 'Furniture' ? 'selected' : ''}>Furniture</option>
+                                <option ${item.category === 'Clothing' ? 'selected' : ''}>Clothing</option>
+                                <option ${item.category === 'Other' ? 'selected' : ''}>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (KSH)</label>
+                            <input type="number" id="edit-product-price" value="${item.price}" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" id="edit-product-quantity" value="${item.quantity}" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="edit-product-description" rows="4" required>${item.description}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload New Image (Optional)</label>
+                            <p>Current Image:</p>
+                            <img src="${item.image_url}" alt="Current Image" style="height: 100px; margin-bottom: 10px;">
+                            <input type="file" id="edit-product-image" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </form>
+                `;
+            }
+
+            // 3. Handles the submission of the updated item details
+            async function handleUpdateSubmit(e) {
+                e.preventDefault();
+                const form = e.target;
+                const itemId = form.dataset.id; // Get the item ID from the form's data attribute
+
+                const formData = new FormData();
+                formData.append('title', form.querySelector('#edit-product-name').value);
+                formData.append('category', form.querySelector('#edit-product-category').value);
+                formData.append('price', form.querySelector('#edit-product-price').value);
+                formData.append('quantity', form.querySelector('#edit-product-quantity').value);
+                formData.append('description', form.querySelector('#edit-product-description').value);
+                
+                // Only add the image to the form data if a new one was selected
+                const imageFile = form.querySelector('#edit-product-image').files[0];
+                if (imageFile) {
+                    formData.append('image', imageFile);
+                }
+
+                try {
+                    const response = await fetch(`${API_URL}/api/items/${itemId}`, {
+                        method: 'PUT',
+                        headers: { 'Authorization': `Bearer ${authToken}` },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+
+                    alert('Item updated successfully!');
+                    showMyListings(); // Go back to the "My Listings" page
+                } catch (error) {
+                    alert(`Update Error: ${error.message}`);
                 }
             }
 
