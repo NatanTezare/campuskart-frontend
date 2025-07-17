@@ -611,12 +611,21 @@
                         const itemId = e.target.dataset.id;
                         handleDeleteItem(itemId);
                     }
+                    // Listener for dynamic edit buttons
+                    else if (e.target.matches('.edit-item-btn')) {
+                        const itemId = e.target.dataset.id;
+                        handleEditClick(itemId);
+                    }
                 });
 
                 // Listener for dynamic "Post Item" form
                 mainContent.addEventListener('submit', (e) => {
                     if (e.target.matches('#product-form')) {
                         handleProductSubmit(e);
+                    }
+                    // Listener for dynamic "Update Item" form
+                    else if (e.target.matches('#edit-product-form')) {
+                        handleUpdateSubmit(e);
                     }
                 });
             }
@@ -764,16 +773,20 @@
                     card.className = 'product-card';
                     card.innerHTML = `
                         <div class="product-image"><img src="${item.image_url}" alt="${item.title}"></div>
-                        <div class="product-info">
-                            <h3>${item.title}</h3>
-                            <p class="product-price">KSH ${item.price.toLocaleString()}</p>
-                            <p>Status: ${item.listing_status}</p>
-                            <button class="delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
-                        </div>`;
+                            <div class="product-info">
+                                <h3>${item.title}</h3>
+                                <p class="product-price">KSH ${item.price.toLocaleString()}</p>
+                                <p>Status: ${item.listing_status}</p>
+                                <p>Quantity: ${item.quantity}</p> <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="edit-item-btn" data-id="${item.item_id}">Edit 📝</button> <button class="delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
+                                </div>
+                            </div>`;
                     grid.appendChild(card);
                 });
                 mainContent.appendChild(grid);
             }
+
+            
 
             function renderProductForm() {
                 mainContent.innerHTML = `
