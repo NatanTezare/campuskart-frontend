@@ -12,7 +12,7 @@
             --usiu-yellow: #FFCC00;
             --light-gray: #FFCC00;
             --dark-gray: #1f0047;
-            --medium-gray: #FFCC00;
+            --medium-gray: #0800a9;
         }
 
         * {
@@ -334,6 +334,25 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
+        
+        .btn-edit {
+            background-color: var(--usiu-blue);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-delete {
+            background-color: #cc0000;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
@@ -349,6 +368,44 @@
             .main-nav ul {
                 justify-content: center;
                 margin-top: 10px;
+            }
+        }
+
+        /* Add these styles at the end of your CSS */
+        #burger-menu {
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none; /* Hide the desktop nav container */
+            }
+            
+            #burger-menu {
+                display: block; /* Show the burger icon on mobile */
+            }
+
+            .main-nav .nav-links-list {
+                display: none; /* Hide the list by default */
+                flex-direction: column;
+                position: absolute;
+                top: 75px; /* Position below the header */
+                left: 0;
+                width: 100%;
+                background-color: var(--usiu-blue);
+                padding: 10px 0;
+                box-shadow: 0 2px 5px rgb(234, 230, 230);
+            }
+
+            .main-nav .nav-links-list.nav-active {
+                display: block; /* Show the list when active */
+                z-index: 999;
+            }
+
+            .main-nav .nav-links-list li {
+                text-align: center;
+                margin: 10px 0;
+                z-index: 999;
             }
         }
     </style>
@@ -424,25 +481,26 @@
             </footer>
         </div>
 
+        
+
        <!-- Product Detail Page (hidden by default) -->
 <div id="product-detail-page" style="display: none;">
-    <header class="main-header">
-        <div class="logo">
-            <h1>CampusKart</h1>
-        </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
-                <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
-                <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li>
-                <li><a href="#" id="logout-btn-3">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+     <header class="main-header">
+                <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div class="logo"><h1>CampusKart</h1></div>
+                    <nav class="main-nav">
+                        <ul>
+                            <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
+                            <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li>
+                            <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
+                            <li><a href="#" id="logout-btn">Logout</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+
     
-    <main class="container">
-        <a href="#" class="back-link" data-page="dashboard">← Back to Marketplace</a>
-        
+    <main class="container"> 
         <div class="product-detail">
             <div class="product-images">
                 <div class="main-product-image">
@@ -503,6 +561,14 @@
             const signupTab = document.getElementById('signup-tab');
             const loginForm = document.getElementById('login-form');
             const signupForm = document.getElementById('signup-form');
+
+            // Inside the setupEventListeners function
+
+            // Get the new elements
+            const burgerMenu = document.getElementById('burger-menu');
+            const navLinksList = document.querySelector('.nav-links-list');
+
+
 
             // =================================================================
             // 3. CORE APP LOGIC (Routing, Initialization)
@@ -629,6 +695,11 @@
                     else if (e.target.matches('#edit-product-form')) {
                         handleUpdateSubmit(e);
                     }
+                });
+
+                // Add the click listener for the burger
+                burgerMenu.addEventListener('click', () => {
+                    navLinksList.classList.toggle('nav-active');
                 });
             }
 
@@ -778,14 +849,16 @@
                     card.className = 'product-card';
                     card.innerHTML = `
                         <div class="product-image"><img src="${item.image_url}" alt="${item.title}"></div>
-                            <div class="product-info">
-                                <h3>${item.title}</h3>
-                                <p class="product-price">KSH ${item.price.toLocaleString()}</p>
-                                <p>Status: ${item.listing_status}</p>
-                                <p>Quantity: ${item.quantity}</p> <div style="margin-top: 10px; display: flex; gap: 10px;">
-                                    <button class="edit-item-btn" data-id="${item.item_id}">Edit 📝</button> <button class="delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
-                                </div>
-                            </div>`;
+                        <div class="product-info">
+                            <h3>${item.title}</h3>
+                            <p class="product-price">KSH ${item.price.toLocaleString()}</p>
+                            <p>Status: ${item.listing_status}</p>
+                            <p>Quantity: ${item.quantity}</p>
+                            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                <button class="btn-edit edit-item-btn" data-id="${item.item_id}">Edit 📝</button>
+                                <button class="btn-delete delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
+                            </div>
+                        </div>`;
                     grid.appendChild(card);
                 });
                 mainContent.appendChild(grid);
