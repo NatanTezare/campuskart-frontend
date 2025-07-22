@@ -3,468 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USIU Marketplace</title>
-    
+    <title>USIU CampusKart</title>
     <style>
-        /* CSS Styles */
         :root {
-            --usiu-blue: #000000;;
+            --usiu-blue: #003366;
             --usiu-yellow: #FFCC00;
-            --light-gray: #FFCC00;
-            --dark-gray: #1f0047;
-            --medium-gray: #0800a9;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --medium-gray: #777;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .main-header {
-            background-color: var(--usiu-blue);
-            color: rgb(244, 237, 237);
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .main-header .logo h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .main-nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        .main-nav ul li {
-            margin-right: 20px;
-        }
-
-        .main-nav ul li a {
-            color: rgb(252, 247, 247);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .main-nav ul li a:hover {
-            color: var(--usiu-yellow);
-        }
-
-        .main-nav ul li a.active {
-            color: var(--usiu-yellow);
-            border-bottom: 2px solid var(--usiu-yellow);
-        }
-
-        .btn-primary {
-            background-color: var(--usiu-yellow);
-            color: var(--usiu-blue);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: #e6b800;
-        }
-
-        .search-bar {
-            display: flex;
-            margin: 20px 0;
-        }
-
-        .search-bar input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-            font-size: 1rem;
-        }
-
-        .search-bar button {
-            border-radius: 0 4px 4px 0;
-        }
-
-        .categories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .category-btn {
-            background-color: white;
-            border: 1px solid #ddd;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .category-btn:hover {
-            background-color: grey;
-        }
-
-        .category-btn.active {
-            background-color: var(--usiu-blue);
-            color: white;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(4, 4, 4, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-image {
-            height: 200px;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-info {
-            padding: 15px;
-        }
-
-        .product-price {
-            font-weight: bold;
-            color: var(--usiu-blue);
-            margin: 5px 0;
-        }
-
-        .product-category {
-            color: var(--medium-gray);
-            font-size: 0.9rem;
-        }
-
-        /* Auth Page Styles */
-        .auth-container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: rgb(239, 239, 239);
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .tab-btn {
-            padding: 10px 20px;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light-gray); color: var(--dark-gray); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .main-header { background-color: var(--usiu-blue); color: white; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .main-header .logo h1 { font-size: 1.8rem; }
+        .main-nav ul { display: flex; list-style: none; }
+        .main-nav ul li { margin-left: 20px; }
+        .main-nav ul li a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .main-nav ul li a:hover, .main-nav ul li a.active { color: var(--usiu-yellow); }
+        .btn-primary { background-color: var(--usiu-yellow); color: var(--usiu-blue); border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: background-color 0.3s; }
+        .btn-primary:hover { background-color: #e6b800; }
+        .search-bar { display: flex; margin-bottom: 20px; }
+        .search-bar input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px 0 0 4px; font-size: 1rem; }
+        .search-bar button { border-radius: 0 4px 4px 0; }
+        .categories { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .category-btn { background-color: white; border: 1px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer; transition: all 0.3s; }
+        .category-btn:hover { background-color: #e9e9e9; }
+        .category-btn.active { background-color: var(--usiu-blue); color: white; border-color: var(--usiu-blue); }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .product-card { background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-image { height: 200px; background-color: #eee; overflow: hidden; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { padding: 15px; }
+        .product-price { font-weight: bold; color: var(--usiu-blue); }
+        .auth-container { max-width: 500px; margin: 50px auto; padding: 30px; background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
+        .tab-btn { padding: 10px 20px; background: none; border: none; cursor: pointer; font-weight: 600; color: var(--medium-gray); position: relative; }
+        .tab-btn.active { color: var(--usiu-blue); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background-color: var(--usiu-blue); }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }
+        .product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+        .seller-info, .product-description { margin-top: 20px; padding: 15px; background-color: white; border-radius: 8px; }
+        .main-product-image img { width: 100%; height: auto; object-fit: contain; }
+        .back-link-styled { display: inline-block; background-color: #e0e0e0; color: var(--dark-gray); padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: 500; margin-bottom: 20px; transition: background-color 0.3s; }
+        .back-link-styled:hover { background-color: #d0d0d0; }
+        .btn-edit { background-color: var(--usiu-blue); color: white; padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.9rem; }
+        .btn-delete { background-color: #cc0000; color: white; padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.9rem; }
+        /* Change this CSS rule */
+        #burger-menu, #burger-menu-detail {
+            display: none; /* Hide BOTH burgers on desktop */
             background: none;
             border: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--medium-gray);
-            position: relative;
-        }
-
-        .tab-btn.active {
-            color: var(--usiu-blue);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--usiu-blue);
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .form-group input, 
-        .form-group textarea, 
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        /* Product Detail Styles */
-        .product-detail {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .product-images {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .main-product-image {
-            height: 400px;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-
-        .main-product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .thumbnail-container {
-            display: flex;
-            gap: 10px;
-        }
-
-        .thumbnail {
-            width: 80px;
-            height: 80px;
-            background-color: #eee;
-            cursor: pointer;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .seller-info, .product-description {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: white;
-            border-radius: 8px;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        .btn-edit {
-            background-color: var(--usiu-blue);
             color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: none;
+            font-size: 2rem;
             cursor: pointer;
-            font-size: 0.9rem;
         }
-        .btn-delete {
-            background-color: #cc0000;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Styles */
         @media (max-width: 768px) {
-            .product-detail {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .main-nav ul {
-                justify-content: center;
-                margin-top: 10px;
-            }
-        }
-
-        /* Add these styles at the end of your CSS */
-        #burger-menu {
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .main-nav {
-                display: none; /* Hide the desktop nav container */
-            }
-            
-            #burger-menu {
-                display: block; /* Show the burger icon on mobile */
-            }
-
-            .main-nav .nav-links-list {
-                display: none; /* Hide the list by default */
-                flex-direction: column;
-                position: absolute;
-                top: 75px; /* Position below the header */
-                left: 0;
-                width: 100%;
-                background-color: var(--usiu-blue);
-                padding: 10px 0;
-                box-shadow: 0 2px 5px rgb(234, 230, 230);
-            }
-
-            .main-nav .nav-links-list.nav-active {
-                display: block; /* Show the list when active */
-                z-index: 999;
-            }
-
-            .main-nav .nav-links-list li {
-                text-align: center;
-                margin: 10px 0;
-                z-index: 999;
-            }
+            .main-nav { display: none; }
+            #burger-menu, #burger-menu-detail { display: block; }
+            .nav-links-list, .nav-links-list-detail { display: none; flex-direction: column; position: absolute; top: 75px; left: 0; width: 100%; background-color: var(--usiu-blue); padding: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000; }
+            .nav-links-list.nav-active, .nav-links-list-detail.nav-active { display: flex; }
+            .nav-links-list li, .nav-links-list-detail li { text-align: center; margin: 10px 0; }
+            .product-detail { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div id="app">
-        <div id="auth-page" class="auth-container"> <div class="logo" style="text-align: center; margin-bottom: 20px;">
-                <h1>CampusKart</h1>
-                <p>Buy and sell within the USIU community</p>
-            </div>
-            
-            <div class="auth-tabs">
-                <button class="tab-btn active" id="login-tab">Login</button>
-                <button class="tab-btn" id="signup-tab">Sign Up</button>
-            </div>
-            
+        <div id="auth-page" class="auth-container">
+            <div style="text-align: center; margin-bottom: 20px;"><h1>USIU CampusKart</h1><p>Buy and sell within the community</p></div>
+            <div class="auth-tabs"><button class="tab-btn active" id="login-tab">Login</button><button class="tab-btn" id="signup-tab">Sign Up</button></div>
             <form id="login-form" class="auth-form active">
-                <div class="form-group">
-                    <label for="login-email">USIU Email (@usiu.ac.ke)</label>
-                    <input type="email" id="login-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" required>
-                </div>
+                <div class="form-group"><label for="login-email">USIU Email (@usiu.ac.ke)</label><input type="email" id="login-email" required></div>
+                <div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" required></div>
                 <button type="submit" class="btn-primary">Login</button>
             </form>
-            
             <form id="signup-form" class="auth-form">
-                <div class="form-group">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-email">USIU Email (@usiu.ac.ke)</label>
-                    <input type="email" id="signup-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-confirm">Confirm Password</label>
-                    <input type="password" id="signup-confirm" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-phone">Phone Number (Optional)</label>
-                    <input type="tel" id="signup-phone">
-                </div>
+                <div class="form-group"><label for="signup-name">Full Name</label><input type="text" id="signup-name" required></div>
+                <div class="form-group"><label for="signup-email">USIU Email (@usiu.ac.ke)</label><input type="email" id="signup-email" required></div>
+                <div class="form-group"><label for="signup-password">Password</label><input type="password" id="signup-password" required></div>
+                <div class="form-group"><label for="signup-confirm">Confirm Password</label><input type="password" id="signup-confirm" required></div>
+                <div class="form-group"><label for="signup-phone">Phone Number (Optional)</label><input type="tel" id="signup-phone"></div>
                 <button type="submit" class="btn-primary">Create Account</button>
             </form>
         </div>
         
         <div id="main-app-page" style="display: none;">
             <header class="main-header">
-                <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                    <div class="logo"><h1>CampusKart</h1></div>
+                <div class="container">
+                    <div class="logo"><h1>USIU CampusKart</h1></div>
+                    <button id="burger-menu">&#9776;</button>
                     <nav class="main-nav">
-                        <ul>
+                        <ul class="nav-links-list">
                             <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
                             <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li>
                             <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
@@ -473,327 +109,238 @@
                     </nav>
                 </div>
             </header>
-            
             <main id="main-content" class="container"></main>
-            
-            <footer class="main-footer" style="text-align: center; padding: 20px; margin-top: 30px;">
-                <p>&copy; 2025 USIU Marketplace. For USIU community only.</p>
-            </footer>
         </div>
 
-        
-
-       <!-- Product Detail Page (hidden by default) -->
-<div id="product-detail-page" style="display: none;">
-     <header class="main-header">
-                <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                    <div class="logo"><h1>CampusKart</h1></div>
+        <div id="product-detail-page" style="display: none;">
+             <header class="main-header">
+                <div class="container">
+                    <div class="logo"><h1>USIU CampusKart</h1></div>
+                    <button id="burger-menu-detail">&#9776;</button>
                     <nav class="main-nav">
-                        <ul>
+                        <ul class="nav-links-list-detail">
                             <li><a href="#" class="nav-link" data-page="dashboard">Home</a></li>
                             <li><a href="#" class="nav-link" data-page="my-listings">My Listings</a></li>
                             <li><a href="#" class="nav-link" data-page="post-product">Sell Item</a></li>
-                            <li><a href="#" id="logout-btn">Logout</a></li>
+                            <li><a href="#" id="logout-btn-detail">Logout</a></li>
                         </ul>
                     </nav>
                 </div>
             </header>
-
-    
-    <main class="container"> 
-        <div class="product-detail">
-            <div class="product-images">
-                <div class="main-product-image">
-                    <!-- ✅ Fix: ID should match JS --> 
-                    <img id="detail-main-image" src="" alt="Product Image">
+            <main class="container"> 
+                <a href="#" class="back-link-styled" data-page="dashboard">← Back to Marketplace</a>
+                <div class="product-detail">
+                    <div class="product-images"><div class="main-product-image"><img id="detail-main-image" src="" alt="Product Image"></div></div>
+                    <div class="product-info">
+                        <h1 id="detail-title">Product Title</h1>
+                        <p class="product-price" id="detail-price">KSH 0</p>
+                        <p class="product-category" id="detail-category">Category</p>
+                        <p class="product-quantity" id="detail-quantity">Quantity: 0</p>
+                        <div class="seller-info">
+                            <h3>Seller Information</h3>
+                            <p id="detail-seller-name">Name: </p>
+                            <p id="detail-seller-email">Email: </p>
+                            <p id="detail-seller-phone">Phone: </p>
+                        </div>
+                        <div class="product-description">
+                            <h3>Description</h3>
+                            <p id="detail-full-description">No description available.</p>
+                        </div>                         
+                    </div>
                 </div>
-                <div class="thumbnail-container" id="thumbnail-container">
-                    <!-- Thumbnails will be added here -->
-                </div>
-            </div>
-            
-            <div class="product-info">
-                <!-- ✅ Fix: IDs must match JS -->
-                <h1 id="detail-title">Product Title</h1>
-                <p class="product-price" id="detail-price">KSH 0</p>
-                <p class="product-category" id="detail-category">Category</p>
-                
-                <div class="seller-info">
-                    <h3>Seller Information</h3>
-                    <p id="detail-seller-name">Name: </p>
-                    <p id="detail-seller-email">Email: </p>
-                    <p id="detail-seller-phone">Phone: </p>
-                </div>
-                
-                <div class="product-description">
-                    <h3>Description</h3>
-                    <p id="detail-full-description">No description available.</p>
-                </div>                         
-            </div>
+            </main>
         </div>
-    </main>
-</div>
-
     </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // =================================================================
-            // 1. CONFIGURATION & STATE
-            // =================================================================
-            const API_URL = 'https://campuskart-backend-unqp.onrender.com';
-            let authToken = localStorage.getItem('token');
+    document.addEventListener('DOMContentLoaded', () => {
+        class MarketplaceApp {
+            constructor() {
+                this.API_URL = 'https://campuskart-backend-unqp.onrender.com';
+                this.authToken = localStorage.getItem('token');
+                this.state = { currentUser: null, products: [] };
+                this.cacheDOMElements();
+                this.handleEmailVerification();
+            }
 
-            const state = {
-                currentUser: null,
-                products: [],
-            };
+            cacheDOMElements() {
+                this.app = document.getElementById('app');
+                this.authPage = document.getElementById('auth-page');
+                this.mainAppPage = document.getElementById('main-app-page');
+                this.mainContent = document.getElementById('main-content');
+                this.productDetailPage = document.getElementById('product-detail-page');
+                this.loginTab = document.getElementById('login-tab');
+                this.signupTab = document.getElementById('signup-tab');
+                this.loginForm = document.getElementById('login-form');
+                this.signupForm = document.getElementById('signup-form');
+            }
 
-            // =================================================================
-            // 2. DOM ELEMENT SELECTORS (Static elements that always exist)
-            // =================================================================
-            const app = document.getElementById('app');
-            const authPage = document.getElementById('auth-page');
-            const mainAppPage = document.getElementById('main-app-page');
-            const mainContent = document.getElementById('main-content');
-            const productDetailPage = document.getElementById('product-detail-page');
+            init() {
+                this.setupEventListeners();
+                if (this.authToken) this.showPage('dashboard');
+                else this.showPage('auth');
+            }
             
-            const loginTab = document.getElementById('login-tab');
-            const signupTab = document.getElementById('signup-tab');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-
-            // Inside the setupEventListeners function
-
-            // Get the new elements
-            const burgerMenu = document.getElementById('burger-menu');
-            const navLinksList = document.querySelector('.nav-links-list');
-
-
-
-            // =================================================================
-            // 3. CORE APP LOGIC (Routing, Initialization)
-            // =================================================================
-
-            // This is the main entry point when the page loads
-            function handleEmailVerification() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const verificationToken = urlParams.get('token');
-
-                if (verificationToken) {
-                    // A token is in the URL, so verify it
-                    document.body.innerHTML = '<h1>Verifying your email, please wait...</h1>';
-                    fetch(`${API_URL}/api/users/verify?token=${verificationToken}`)
-                        .then(response => {
-                            if (!response.ok) throw new Error('Verification link is invalid or has expired.');
-                            return response.text();
-                        })
-                        .then(successHtml => {
-                            document.body.innerHTML = successHtml;
-                            const mainPageUrl = window.location.origin + window.location.pathname;
-                            document.body.innerHTML += `<br><br><a href="${mainPageUrl}" style="color: var(--usiu-blue); font-weight: bold;">Click here to go to the login page</a>`;
-                        })
-                        .catch(error => {
-                            document.body.innerHTML = `<h1>Verification Failed</h1><p>${error.message}</p>`;
-                        });
-                } else {
-                    // No token, start the app normally
-                    init();
-                }
-            }
-
-            // Initializes the app state based on whether a user is logged in
-            function init() {
-                if (authToken) {
-                    showPage('dashboard');
-                } else {
-                    showPage('auth');
-                }
-                setupEventListeners();
-            }
-
-            // Controls which main view is visible and what content is loaded
-            function showPage(page) {
-                authPage.style.display = 'none';
-                mainAppPage.style.display = 'none';
-                productDetailPage.style.display = 'none';
-
+            showPage(page) {
+                this.authPage.style.display = 'none';
+                this.mainAppPage.style.display = 'none';
+                this.productDetailPage.style.display = 'none';
                 if (page === 'auth') {
-                    authPage.style.display = 'block';
+                    this.authPage.style.display = 'block';
                 } else if (page === 'product-detail') {
-                    productDetailPage.style.display = 'block';
+                    this.productDetailPage.style.display = 'block';
                 } else {
-                    mainAppPage.style.display = 'block';
+                    this.mainAppPage.style.display = 'block';
                     document.querySelectorAll('.nav-link').forEach(link => {
                         link.classList.toggle('active', link.dataset.page === page);
                     });
-                    if (page === 'dashboard') loadProducts();
-                    else if (page === 'my-listings') showMyListings();
-                    else if (page === 'post-product') renderProductForm();
+                    if (page === 'dashboard') this.loadProducts();
+                    else if (page === 'my-listings') this.showMyListings();
+                    else if (page === 'post-product') this.renderProductForm();
                 }
             }
-
-            // =================================================================
-            // 4. EVENT LISTENERS
-            // =================================================================
-
-            // Sets up all the event listeners for the application
-            function setupEventListeners() {
-                // --- Static Listeners (for elements that always exist) ---
-                loginTab.addEventListener('click', () => switchAuthTab('login'));
-                signupTab.addEventListener('click', () => switchAuthTab('signup'));
-                loginForm.addEventListener('submit', handleLogin);
-                signupForm.addEventListener('submit', handleSignup);
+            
+            // Replace your entire setupEventListeners method with this
+            setupEventListeners() {
+                // --- AUTH LISTENERS ---
+                this.loginTab.addEventListener('click', () => this.switchAuthTab('login'));
+                this.signupTab.addEventListener('click', () => this.switchAuthTab('signup'));
+                this.loginForm.addEventListener('submit', this.handleLogin.bind(this));
+                this.signupForm.addEventListener('submit', this.handleSignup.bind(this));
                 
-                // Use event delegation for nav links since they exist in multiple headers
-                app.addEventListener('click', (e) => {
+                // --- DELEGATED LISTENERS (for clicks on the whole app) ---
+                this.app.addEventListener('click', (e) => {
+                    // ✅ FIX: Burger menu logic is now here
+                    if (e.target.matches('#burger-menu')) {
+                        const navLinksList = document.querySelector('.nav-links-list');
+                        if (navLinksList) navLinksList.classList.toggle('nav-active');
+                    }
+                    if (e.target.matches('#burger-menu-detail')) {
+                        const navLinksListDetail = document.querySelector('.nav-links-list-detail');
+                        if (navLinksListDetail) navLinksListDetail.classList.toggle('nav-active');
+                    }
+
+                    // --- Other delegated click listeners ---
                     if (e.target.matches('.nav-link')) {
                         e.preventDefault();
-                        showPage(e.target.dataset.page);
+                        const navLinksList = document.querySelector('.nav-links-list.nav-active');
+                        const navLinksListDetail = document.querySelector('.nav-links-list-detail.nav-active');
+                        if (navLinksList) navLinksList.classList.remove('nav-active');
+                        if (navLinksListDetail) navLinksListDetail.classList.remove('nav-active');
+                        this.showPage(e.target.dataset.page);
                     }
-                    if (e.target.matches('#logout-btn') || e.target.matches('#logout-btn-detail')) {
+                    if (e.target.matches('#logout-btn, #logout-btn-detail')) {
                         e.preventDefault();
-                        handleLogout();
+                        this.handleLogout();
                     }
-                    if (e.target.matches('.back-link')) {
+                    if (e.target.matches('.back-link-styled')) {
                         e.preventDefault();
-                        showPage('dashboard');
+                        this.showPage('dashboard');
                     }
                 });
 
-                // --- Delegated Listeners (for dynamic content) ---
-                mainContent.addEventListener('click', (e) => {
-                     console.log('A click happened inside mainContent. The target was:', e.target);
-                    // Listener for dynamic search button
+                // --- DELEGATED LISTENERS (for clicks inside the main content area) ---
+                this.mainContent.addEventListener('click', (e) => {
                     if (e.target.matches('#search-btn')) {
-                        const query = mainContent.querySelector('#search-input').value;
-                        loadProducts({ search: query });
-                    }
-                    // Listener for dynamic category buttons
-                    if (e.target.matches('.category-btn')) {
+                        const query = this.mainContent.querySelector('#search-input').value;
+                        this.loadProducts({ search: query });
+                    } else if (e.target.matches('.category-btn')) {
                         const category = e.target.dataset.category;
-                        loadProducts(category === 'all' ? {} : { category });
-                    }
-                    // Listener for dynamic delete buttons
-                    if (e.target.matches('.delete-item-btn')) {
-                        const itemId = e.target.dataset.id;
-                        handleDeleteItem(itemId);
-                    }
-                    // Listener for dynamic edit buttons
-                    else if (e.target.matches('.edit-item-btn')) {
-                        console.log('Edit button was clicked!');
-                        const itemId = e.target.dataset.id;
-                        handleEditClick(itemId);
+                        this.loadProducts(category === 'all' ? {} : { category });
+                    } else if (e.target.matches('.delete-item-btn')) {
+                        this.handleDeleteItem(e.target.dataset.id);
+                    } else if (e.target.matches('.edit-item-btn')) {
+                        this.handleEditClick(e.target.dataset.id);
                     }
                 });
-
-                // Listener for dynamic "Post Item" form
-                mainContent.addEventListener('submit', (e) => {
-                    if (e.target.matches('#product-form')) {
-                        handleProductSubmit(e);
-                    }
-                    // Listener for dynamic "Update Item" form
-                    else if (e.target.matches('#edit-product-form')) {
-                        handleUpdateSubmit(e);
-                    }
-                });
-
-                // Add the click listener for the burger
-                burgerMenu.addEventListener('click', () => {
-                    navLinksList.classList.toggle('nav-active');
+                
+                // --- DELEGATED LISTENERS (for form submissions) ---
+                this.mainContent.addEventListener('submit', (e) => {
+                    if (e.target.matches('#product-form')) this.handleProductSubmit(e);
+                    else if (e.target.matches('#edit-product-form')) this.handleUpdateSubmit(e);
                 });
             }
+            switchAuthTab(tab) {
+                this.loginTab.classList.toggle('active', tab === 'login');
+                this.signupTab.classList.toggle('active', tab === 'signup');
+                this.loginForm.classList.toggle('active', tab === 'login');
+                this.signupForm.classList.toggle('active', tab === 'signup');
+            }
 
-            // =================================================================
-            // 5. AUTHENTICATION & USER FUNCTIONS
-            // =================================================================
-            
-            async function handleSignup(e) {
+            async handleSignup(e) {
                 e.preventDefault();
-                const name = signupForm.querySelector('#signup-name').value;
-                const email = signupForm.querySelector('#signup-email').value;
-                const password = signupForm.querySelector('#signup-password').value;
-                const confirmPassword = signupForm.querySelector('#signup-confirm').value;
-                const phone = signupForm.querySelector('#signup-phone').value;
+                const name = this.signupForm.querySelector('#signup-name').value;
+                const email = this.signupForm.querySelector('#signup-email').value;
+                const password = this.signupForm.querySelector('#signup-password').value;
+                const confirmPassword = this.signupForm.querySelector('#signup-confirm').value;
+                const phone = this.signupForm.querySelector('#signup-phone').value;
                 if (password !== confirmPassword) return alert('Passwords do not match');
                 const nameParts = name.trim().split(' ');
                 const firstName = nameParts[0];
                 const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
                 try {
-                    const response = await fetch(`${API_URL}/api/users/register`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ firstName, lastName, usiuEmail: email, password, phone_number: phone })
-                    });
+                    const response = await fetch(`${this.API_URL}/api/users/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ firstName, lastName, usiuEmail: email, password, phone_number: phone }) });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
                     alert('Signup successful! Please check your email to verify your account.');
-                    signupForm.reset();
-                    switchAuthTab('login');
-                } catch (error) {
-                    alert(`Signup Error: ${error.message}`);
-                }
+                    this.signupForm.reset();
+                    this.switchAuthTab('login');
+                } catch (error) { alert(`Signup Error: ${error.message}`); }
             }
 
-            async function handleLogin(e) {
+            async handleLogin(e) {
                 e.preventDefault();
-                const email = loginForm.querySelector('#login-email').value;
-                const password = loginForm.querySelector('#login-password').value;
+                const email = this.loginForm.querySelector('#login-email').value;
+                const password = this.loginForm.querySelector('#login-password').value;
                 try {
-                    const response = await fetch(`${API_URL}/api/users/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ usiuEmail: email, password })
-                    });
+                    const response = await fetch(`${this.API_URL}/api/users/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ usiuEmail: email, password }) });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
                     alert('Login successful!');
-                    authToken = data.token;
-                    localStorage.setItem('token', authToken);
-                    showPage('dashboard');
-                } catch (error) {
-                    alert(`Login Error: ${error.message}`);
-                }
+                    this.authToken = data.token;
+                    localStorage.setItem('token', this.authToken);
+                    this.showPage('dashboard');
+                } catch (error) { alert(`Login Error: ${error.message}`); }
             }
             
-            function handleLogout() {
-                authToken = null;
+            handleLogout() {
+                this.authToken = null;
                 localStorage.removeItem('token');
-                showPage('auth');
+                this.showPage('auth');
                 alert('You have been logged out.');
             }
-
-            function switchAuthTab(tab) {
-                loginTab.classList.toggle('active', tab === 'login');
-                signupTab.classList.toggle('active', tab === 'signup');
-                loginForm.classList.toggle('active', tab === 'login');
-                signupForm.classList.toggle('active', tab === 'signup');
-            }
-
-            // =================================================================
-            // 6. API & RENDER FUNCTIONS (For content)
-            // =================================================================
-
-            async function loadProducts(params = {}) {
-                mainContent.innerHTML = '<h2>Loading products...</h2>';
-                const query = new URLSearchParams(params).toString();
-                try {
-                    const response = await fetch(`${API_URL}/api/items?${query}`);
-                    if (!response.ok) throw new Error('Failed to fetch products');
-                    state.products = await response.json();
-                    renderProducts(state.products, params.category);
-                } catch (error) {
-                    mainContent.innerHTML = `<p>Error: ${error.message}</p>`;
-                }
+            
+            handleEmailVerification() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const verificationToken = urlParams.get('token');
+                if (verificationToken) {
+                    document.body.innerHTML = '<h1>Verifying your email, please wait...</h1>';
+                    fetch(`${this.API_URL}/api/users/verify?token=${verificationToken}`)
+                        .then(response => { if (!response.ok) throw new Error('Verification link is invalid or has expired.'); return response.text(); })
+                        .then(successHtml => {
+                            document.body.innerHTML = successHtml;
+                            const mainPageUrl = window.location.origin + window.location.pathname;
+                            document.body.innerHTML += `<br><br><a href="${mainPageUrl}" style="color: var(--usiu-blue); font-weight: bold;">Click here to go to the login page</a>`;
+                        })
+                        .catch(error => { document.body.innerHTML = `<h1>Verification Failed</h1><p>${error.message}</p>`; });
+                } else { this.init(); }
             }
             
-            // Replace your entire renderProducts function with this one
-            function renderProducts(products, activeCategory = 'all') {
-                mainContent.innerHTML = `
-                    <div class="search-bar">
-                        <input type="text" placeholder="Search for books, electronics..." id="search-input">
-                        <button class="btn-primary" id="search-btn">Search</button>
-                    </div>
-                    <div class="categories" id="categories-container">
+            async loadProducts(params = {}) {
+                this.mainContent.innerHTML = '<h2>Loading products...</h2>';
+                const query = new URLSearchParams(params).toString();
+                try {
+                    const response = await fetch(`${this.API_URL}/api/items?${query}`);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    const products = await response.json();
+                    this.renderProducts(products, params.category);
+                } catch (error) { this.mainContent.innerHTML = `<p>Error: ${error.message}</p>`; }
+            }
+            
+            renderProducts(products, activeCategory = 'all') {
+                this.mainContent.innerHTML = `
+                    <div class="search-bar"><input type="text" placeholder="Search for books, electronics..." id="search-input"><button class="btn-primary" id="search-btn">Search</button></div>
+                    <div class="categories">
                         <button class="category-btn ${activeCategory === 'all' ? 'active' : ''}" data-category="all">All</button>
                         <button class="category-btn ${activeCategory === 'Books' ? 'active' : ''}" data-category="Books">Books</button>
                         <button class="category-btn ${activeCategory === 'Electronics' ? 'active' : ''}" data-category="Electronics">Electronics</button>
@@ -802,44 +349,41 @@
                         <button class="category-btn ${activeCategory === 'Other' ? 'active' : ''}" data-category="Other">Other</button>
                     </div>
                     <div class="products-grid" id="products-container"></div>`;
-
-                const container = mainContent.querySelector('#products-container');
+                const container = this.mainContent.querySelector('#products-container');
                 if (products.length === 0) {
-                    container.innerHTML = '<p>No products found matching your criteria.</p>';
-                    return;
+                    container.innerHTML = '<p>No products found matching your criteria.</p>'; return;
                 }
-
                 products.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
+                    card.innerHTML = `<div class="product-image"><img src="${product.image_url}" alt="${product.title}"></div><div class="product-info"><h3>${product.title}</h3><p class="product-price">KSH ${product.price.toLocaleString()}</p><p class="product-category">${product.category}</p><p class="product-quantity">Quantity: ${product.quantity}</p></div>`;
+                    // Inside the renderProducts method
                     card.innerHTML = `
                         <div class="product-image"><img src="${product.image_url}" alt="${product.title}"></div>
                         <div class="product-info">
                             <h3>${product.title}</h3>
                             <p class="product-price">KSH ${product.price.toLocaleString()}</p>
                             <p class="product-category">${product.category}</p>
-                        </div>`;
-                    card.addEventListener('click', () => showProductDetail(product.item_id));
+                            <p class="product-quantity">Quantity: ${product.quantity}</p> </div>`;
+                    card.addEventListener('click', () => this.showProductDetail(product.item_id));
                     container.appendChild(card);
                 });
             }
-
-            async function showMyListings() {
-                mainContent.innerHTML = '<h2>Loading your listings...</h2>';
+            
+            async showMyListings() {
+                this.mainContent.innerHTML = '<h2>Loading your listings...</h2>';
                 try {
-                    const response = await fetch(`${API_URL}/api/items/my-items`, { headers: { 'Authorization': `Bearer ${authToken}` } });
+                    const response = await fetch(`${this.API_URL}/api/items/my-items`, { headers: { 'Authorization': `Bearer ${this.authToken}` } });
                     if (!response.ok) throw new Error('Could not fetch your items.');
                     const myItems = await response.json();
-                    renderMyItems(myItems);
-                } catch (error) {
-                    mainContent.innerHTML = `<p>Error: ${error.message}</p>`;
-                }
+                    this.renderMyItems(myItems);
+                } catch (error) { this.mainContent.innerHTML = `<p>Error: ${error.message}</p>`; }
             }
             
-            function renderMyItems(items) {
-                mainContent.innerHTML = '<h2>My Listings</h2>';
+            renderMyItems(items) {
+                this.mainContent.innerHTML = '<h2>My Listings</h2>';
                 if (items.length === 0) {
-                    mainContent.innerHTML += '<p>You have not posted any items yet. Click "Sell Item" to get started!</p>';
+                    this.mainContent.innerHTML += '<p>You have not posted any items yet. Click "Sell Item" to get started!</p>';
                     return;
                 }
                 const grid = document.createElement('div');
@@ -853,7 +397,7 @@
                             <h3>${item.title}</h3>
                             <p class="product-price">KSH ${item.price.toLocaleString()}</p>
                             <p>Status: ${item.listing_status}</p>
-                            <p>Quantity: ${item.quantity}</p>
+                            <p class="product-quantity">Quantity: ${item.quantity.toLocaleString()}</p>
                             <div style="margin-top: 10px; display: flex; gap: 10px;">
                                 <button class="btn-edit edit-item-btn" data-id="${item.item_id}">Edit 📝</button>
                                 <button class="btn-delete delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
@@ -861,13 +405,11 @@
                         </div>`;
                     grid.appendChild(card);
                 });
-                mainContent.appendChild(grid);
+                this.mainContent.appendChild(grid);
             }
 
-            
-
-            function renderProductForm() {
-                mainContent.innerHTML = `
+            renderProductForm() {
+                this.mainContent.innerHTML = `
                     <h2>Post a New Item</h2>
                     <form id="product-form">
                         <div class="form-group"><label>Product Name</label><input type="text" id="product-name" required></div>
@@ -875,175 +417,109 @@
                         <div class="form-group"><label>Price (KSH)</label><input type="number" id="product-price" min="0" required></div>
                         <div class="form-group"><label>Description</label><textarea id="product-description" rows="4" required></textarea></div>
                         <div class="form-group"><label>Upload Image</label><input type="file" id="product-images" accept="image/*" required></div>
+                        <div class="form-group"><label>Quantity</label><input type="number" id="product-quantity" min="1" required></div>
                         <button type="submit" class="btn-primary">Post Item</button>
                     </form>`;
             }
             
-            async function showProductDetail(itemId) {
+            async showProductDetail(itemId) {
                 try {
-                    const response = await fetch(`${API_URL}/api/items/${itemId}`);
+                    const response = await fetch(`${this.API_URL}/api/items/${itemId}`);
                     if (!response.ok) throw new Error('Product not found.');
                     const product = await response.json();
-                    
-                    productDetailPage.querySelector('#detail-title').textContent = product.title;
-                    productDetailPage.querySelector('#detail-price').textContent = `KSH ${Number(product.price).toLocaleString()}`;
-                    productDetailPage.querySelector('#detail-category').textContent = product.category;
-                    productDetailPage.querySelector('#detail-full-description').textContent = product.description;
-                    productDetailPage.querySelector('#detail-seller-name').textContent = `Name: ${product.seller_name}`;
-                    productDetailPage.querySelector('#detail-seller-email').textContent = `Email: ${product.seller_email}`;
-                    productDetailPage.querySelector('#detail-seller-phone').textContent = `Phone: ${product.seller_phone || 'Not provided'}`;
-                    productDetailPage.querySelector('#detail-main-image').src = product.image_url;
-                    
-                    showPage('product-detail');
-                } catch (error) {
-                    alert(`Error: ${error.message}`);
-                }
+                    this.productDetailPage.querySelector('#detail-title').textContent = product.title;
+                    this.productDetailPage.querySelector('#detail-price').textContent = `KSH ${Number(product.price).toLocaleString()}`;
+                    this.productDetailPage.querySelector('#detail-category').textContent = product.category;
+                    this.productDetailPage.querySelector('#detail-quantity').textContent = `Quantity: ${Number(product.quantity).toLocaleString()}`;
+                    this.productDetailPage.querySelector('#detail-full-description').textContent = product.description;
+                    this.productDetailPage.querySelector('#detail-seller-name').textContent = `Name: ${product.seller_name}`;
+                    this.productDetailPage.querySelector('#detail-seller-email').textContent = `Email: ${product.seller_email}`;
+                    this.productDetailPage.querySelector('#detail-seller-phone').textContent = `Phone: ${product.seller_phone || 'Not provided'}`;
+                    this.productDetailPage.querySelector('#detail-main-image').src = product.image_url;
+                    this.showPage('product-detail');
+                } catch (error) { alert(`Error: ${error.message}`); }
             }
 
-            async function handleProductSubmit(e) {
+            async handleProductSubmit(e) {
                 e.preventDefault();
                 const form = e.target;
                 const imageFile = form.querySelector('#product-images').files[0];
                 if (!imageFile) return alert('An image is required.');
-                
                 const formData = new FormData();
                 formData.append('title', form.querySelector('#product-name').value);
                 formData.append('category', form.querySelector('#product-category').value);
                 formData.append('price', form.querySelector('#product-price').value);
+                formData.append('quantity', form.querySelector('#product-quantity').value);
                 formData.append('description', form.querySelector('#product-description').value);
                 formData.append('image', imageFile);
-
                 try {
-                    const response = await fetch(`${API_URL}/api/items`, {
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${authToken}` },
-                        body: formData
-                    });
+                    const response = await fetch(`${this.API_URL}/api/items`, { method: 'POST', headers: { 'Authorization': `Bearer ${this.authToken}` }, body: formData });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
                     alert('Product posted successfully!');
-                    showPage('dashboard');
-                } catch (error) {
-                    alert(`Post Product Error: ${error.message}`);
-                }
+                    this.showPage('dashboard');
+                } catch (error) { alert(`Post Product Error: ${error.message}`); }
             }
             
-            async function handleDeleteItem(itemId) {
+            async handleDeleteItem(itemId) {
                 if (!confirm('Are you sure you want to delete this item?')) return;
                 try {
-                    const response = await fetch(`${API_URL}/api/items/${itemId}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${authToken}` }
-                    });
+                    const response = await fetch(`${this.API_URL}/api/items/${itemId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${this.authToken}` } });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
                     alert('Item deleted successfully!');
-                    showMyListings(); // Refresh the list
-                } catch (error) {
-                    alert(`Error deleting item: ${error.message}`);
-                }
+                    this.showMyListings();
+                } catch (error) { alert(`Error deleting item: ${error.message}`); }
             }
 
-            // --- Add these three new functions to your script ---
-
-            // 1. Fetches an item's data and calls the function to render the edit form
-            async function handleEditClick(itemId) {
-                mainContent.innerHTML = '<h2>Loading item for editing...</h2>';
+            async handleEditClick(itemId) {
+                this.mainContent.innerHTML = '<h2>Loading item for editing...</h2>';
                 try {
-                    const response = await fetch(`${API_URL}/api/items/${itemId}`);
+                    const response = await fetch(`${this.API_URL}/api/items/${itemId}`);
                     if (!response.ok) throw new Error('Could not find item to edit.');
                     const item = await response.json();
-                    renderEditForm(item);
-                } catch (error) {
-                    mainContent.innerHTML = `<p>Error: ${error.message}</p>`;
-                }
+                    this.renderEditForm(item);
+                } catch (error) { this.mainContent.innerHTML = `<p>Error: ${error.message}</p>`; }
             }
 
-            // 2. Renders the HTML form for editing an item, pre-filled with data
-            function renderEditForm(item) {
-                mainContent.innerHTML = `
+            renderEditForm(item) {
+                this.mainContent.innerHTML = `
                     <h2>Edit Your Item</h2>
                     <form id="edit-product-form" data-id="${item.item_id}">
-                        <div class="form-group">
-                            <label>Product Name</label>
-                            <input type="text" id="edit-product-name" value="${item.title}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="edit-product-category" required>
-                                <option ${item.category === 'Books' ? 'selected' : ''}>Books</option>
-                                <option ${item.category === 'Electronics' ? 'selected' : ''}>Electronics</option>
-                                <option ${item.category === 'Furniture' ? 'selected' : ''}>Furniture</option>
-                                <option ${item.category === 'Clothing' ? 'selected' : ''}>Clothing</option>
-                                <option ${item.category === 'Other' ? 'selected' : ''}>Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Price (KSH)</label>
-                            <input type="number" id="edit-product-price" value="${item.price}" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Quantity</label>
-                            <input type="number" id="edit-product-quantity" value="${item.quantity}" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="edit-product-description" rows="4" required>${item.description}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Upload New Image (Optional)</label>
-                            <p>Current Image:</p>
-                            <img src="${item.image_url}" alt="Current Image" style="height: 100px; margin-bottom: 10px;">
-                            <input type="file" id="edit-product-image" accept="image/*">
-                        </div>
+                        <div class="form-group"><label>Name</label><input type="text" id="edit-product-name" value="${item.title}" required></div>
+                        <div class="form-group"><label>Category</label><select id="edit-product-category" required><option ${item.category === 'Books' ? 'selected' : ''}>Books</option><option ${item.category === 'Electronics' ? 'selected' : ''}>Electronics</option><option ${item.category === 'Furniture' ? 'selected' : ''}>Furniture</option><option ${item.category === 'Clothing' ? 'selected' : ''}>Clothing</option><option ${item.category === 'Other' ? 'selected' : ''}>Other</option></select></div>
+                        <div class="form-group"><label>Price (KSH)</label><input type="number" id="edit-product-price" value="${item.price}" required></div>
+                        <div class="form-group"><label>Quantity</label><input type="number" id="edit-product-quantity" value="${item.quantity}" required></div>
+                        <div class="form-group"><label>Description</label><textarea id="edit-product-description" required>${item.description}</textarea></div>
+                        <div class="form-group"><label>New Image (Optional)</label><img src="${item.image_url}" style="height: 100px; margin-bottom: 10px;"><input type="file" id="edit-product-image"></div>
                         <button type="submit" class="btn-primary">Save Changes</button>
-                    </form>
-                `;
+                    </form>`;
             }
-
-            // 3. Handles the submission of the updated item details
-            async function handleUpdateSubmit(e) {
+            
+            async handleUpdateSubmit(e) {
                 e.preventDefault();
                 const form = e.target;
-                const itemId = form.dataset.id; // Get the item ID from the form's data attribute
-
+                const itemId = form.dataset.id;
                 const formData = new FormData();
                 formData.append('title', form.querySelector('#edit-product-name').value);
                 formData.append('category', form.querySelector('#edit-product-category').value);
                 formData.append('price', form.querySelector('#edit-product-price').value);
                 formData.append('quantity', form.querySelector('#edit-product-quantity').value);
                 formData.append('description', form.querySelector('#edit-product-description').value);
-                
-                // Only add the image to the form data if a new one was selected
                 const imageFile = form.querySelector('#edit-product-image').files[0];
-                if (imageFile) {
-                    formData.append('image', imageFile);
-                }
-
+                if (imageFile) { formData.append('image', imageFile); }
                 try {
-                    const response = await fetch(`${API_URL}/api/items/${itemId}`, {
-                        method: 'PUT',
-                        headers: { 'Authorization': `Bearer ${authToken}` },
-                        body: formData
-                    });
-
+                    const response = await fetch(`${this.API_URL}/api/items/${itemId}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${this.authToken}` }, body: formData });
                     const data = await response.json();
                     if (!response.ok) throw new Error(data.message);
-
                     alert('Item updated successfully!');
-                    showMyListings(); // Go back to the "My Listings" page
-                } catch (error) {
-                    alert(`Update Error: ${error.message}`);
-                }
+                    this.showMyListings();
+                } catch (error) { alert(`Update Error: ${error.message}`); }
             }
+        }
 
-            // =================================================================
-            // 7. START THE APPLICATION
-            // =================================================================
-            handleEmailVerification();
-        });
+        new MarketplaceApp();
+    });
     </script>
-
-    
 </body>
 </html>
