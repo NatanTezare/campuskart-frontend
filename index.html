@@ -18,6 +18,7 @@
         .main-header { background-color: var(--usiu-blue); color: white; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .main-header .logo h1 { font-size: 1.8rem; }
+        .main-nav { display: block; }
         .main-nav ul { display: flex; list-style: none; }
         .main-nav ul li { margin-left: 20px; }
         .main-nav ul li a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
@@ -55,15 +56,7 @@
         .back-link-styled:hover { background-color: #d0d0d0; }
         .btn-edit { background-color: var(--usiu-blue); color: white; padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.9rem; }
         .btn-delete { background-color: #cc0000; color: white; padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.9rem; }
-        /* Change this CSS rule */
-        #burger-menu, #burger-menu-detail {
-            display: none; /* Hide BOTH burgers on desktop */
-            background: none;
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-        }
+        #burger-menu, #burger-menu-detail { display: none; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
         @media (max-width: 768px) {
             .main-nav { display: none; }
             #burger-menu, #burger-menu-detail { display: block; }
@@ -72,9 +65,37 @@
             .nav-links-list li, .nav-links-list-detail li { text-align: center; margin: 10px 0; }
             .product-detail { grid-template-columns: 1fr; }
         }
-    </style>
+        /* Add these styles to your <style> section */
+
+        #bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -100; /* Pushes the video behind all other content */
+            object-fit: cover; /* Ensures the video covers the screen without distortion */
+        }
+
+        /* Adds a dark overlay on top of the video but behind the content */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 50% black transparency */
+            z-index: -99; /* Sits between the video and the content */
+        }
+            </style>
 </head>
 <body>
+    <video autoplay muted loop id="bg-video">
+        <source src="./assests/700_F_950711903_4pMbBkKWRrglh5JR3M2AUIZywD6mrexQ_ST.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
     <div id="app">
         <div id="auth-page" class="auth-container">
             <div style="text-align: center; margin-bottom: 20px;"><h1>USIU CampusKart</h1><p>Buy and sell within the community</p></div>
@@ -135,7 +156,7 @@
                         <h1 id="detail-title">Product Title</h1>
                         <p class="product-price" id="detail-price">KSH 0</p>
                         <p class="product-category" id="detail-category">Category</p>
-                        <p class="product-quantity" id="detail-quantity">Quantity: 0</p>
+                        <p class="product-category" id="detail-quantity">Quantity: 0</p>
                         <div class="seller-info">
                             <h3>Seller Information</h3>
                             <p id="detail-seller-name">Name: </p>
@@ -191,7 +212,7 @@
                     this.productDetailPage.style.display = 'block';
                 } else {
                     this.mainAppPage.style.display = 'block';
-                    document.querySelectorAll('.nav-link').forEach(link => {
+                    document.querySelectorAll('#main-app-page .nav-link').forEach(link => {
                         link.classList.toggle('active', link.dataset.page === page);
                     });
                     if (page === 'dashboard') this.loadProducts();
@@ -200,34 +221,24 @@
                 }
             }
             
-
-            // Replace your entire setupEventListeners method with this one
             setupEventListeners() {
-                // --- AUTH LISTENERS ---
                 this.loginTab.addEventListener('click', () => this.switchAuthTab('login'));
                 this.signupTab.addEventListener('click', () => this.switchAuthTab('signup'));
                 this.loginForm.addEventListener('submit', this.handleLogin.bind(this));
                 this.signupForm.addEventListener('submit', this.handleSignup.bind(this));
                 
-                // --- DELEGATED LISTENERS (for clicks on the whole app) ---
                 this.app.addEventListener('click', (e) => {
-                    // ✅ FIX: Burger menu logic is now here and will always work
-                    if (e.target.matches('#burger-menu')) {
-                        const navLinksList = document.querySelector('.nav-links-list');
-                        if (navLinksList) navLinksList.classList.toggle('nav-active');
+                    // ✅ THIS IS THE FIX: This listener is on the parent #app div and will always work
+                    if (e.target.matches('#burger-menu, #burger-menu-detail')) {
+                        const navList = e.target.id === 'burger-menu' 
+                            ? document.querySelector('.nav-links-list') 
+                            : document.querySelector('.nav-links-list-detail');
+                        if (navList) navList.classList.toggle('nav-active');
                     }
-                    if (e.target.matches('#burger-menu-detail')) {
-                        const navLinksListDetail = document.querySelector('.nav-links-list-detail');
-                        if (navLinksListDetail) navLinksListDetail.classList.toggle('nav-active');
-                    }
-
-                    // --- Other delegated click listeners ---
+                    
                     if (e.target.matches('.nav-link')) {
                         e.preventDefault();
-                        const navLinksList = document.querySelector('.nav-links-list.nav-active');
-                        const navLinksListDetail = document.querySelector('.nav-links-list-detail.nav-active');
-                        if (navLinksList) navLinksList.classList.remove('nav-active');
-                        if (navLinksListDetail) navLinksListDetail.classList.remove('nav-active');
+                        document.querySelectorAll('.nav-links-list, .nav-links-list-detail').forEach(list => list.classList.remove('nav-active'));
                         this.showPage(e.target.dataset.page);
                     }
                     if (e.target.matches('#logout-btn, #logout-btn-detail')) {
@@ -240,7 +251,6 @@
                     }
                 });
 
-                // --- DELEGATED LISTENERS (for clicks inside the main content area) ---
                 this.mainContent.addEventListener('click', (e) => {
                     if (e.target.matches('#search-btn')) {
                         const query = this.mainContent.querySelector('#search-input').value;
@@ -255,13 +265,12 @@
                     }
                 });
                 
-                // --- DELEGATED LISTENERS (for form submissions) ---
                 this.mainContent.addEventListener('submit', (e) => {
                     if (e.target.matches('#product-form')) this.handleProductSubmit(e);
                     else if (e.target.matches('#edit-product-form')) this.handleUpdateSubmit(e);
                 });
             }
-
+            
             switchAuthTab(tab) {
                 this.loginTab.classList.toggle('active', tab === 'login');
                 this.signupTab.classList.toggle('active', tab === 'signup');
@@ -342,13 +351,15 @@
             renderProducts(products, activeCategory = 'all') {
                 this.mainContent.innerHTML = `
                     <div class="search-bar"><input type="text" placeholder="Search for books, electronics..." id="search-input"><button class="btn-primary" id="search-btn">Search</button></div>
-                    <div class="categories">
-                        <button class="category-btn ${activeCategory === 'all' ? 'active' : ''}" data-category="all">All</button>
-                        <button class="category-btn ${activeCategory === 'Books' ? 'active' : ''}" data-category="Books">Books</button>
+                     <div class="categories">
+                        <button class="category-btn ${activeCategory === 'all' || !activeCategory ? 'active' : ''}" data-category="all">All</button>
+                        <button class="category-btn ${activeCategory === 'Academics' ? 'active' : ''}" data-category="Academics">Academics</button>
                         <button class="category-btn ${activeCategory === 'Electronics' ? 'active' : ''}" data-category="Electronics">Electronics</button>
-                        <button class="category-btn ${activeCategory === 'Furniture' ? 'active' : ''}" data-category="Furniture">Furniture</button>
-                        <button class="category-btn ${activeCategory === 'Clothing' ? 'active' : ''}" data-category="Clothing">Clothing</button>
-                        <button class="category-btn ${activeCategory === 'Other' ? 'active' : ''}" data-category="Other">Other</button>
+                        <button class="category-btn ${activeCategory === 'Dorm & Living' ? 'active' : ''}" data-category="Dorm & Living">Dorm & Living</option>
+                        <button class="category-btn ${activeCategory === 'Fashion' ? 'active' : ''}" data-category="Fashion">Fashion</option>
+                        <button class="category-btn ${activeCategory === 'Services' ? 'active' : ''}" data-category="Services">Services</option>
+                        <button class="category-btn ${activeCategory === 'Hobbies & Sports' ? 'active' : ''}" data-category="Hobbies & Sports">Hobbies & Sports</option>
+                        <button class="category-btn ${activeCategory === 'Other' ? 'active' : ''}" data-category="Other">Other</option>
                     </div>
                     <div class="products-grid" id="products-container"></div>`;
                 const container = this.mainContent.querySelector('#products-container');
@@ -358,15 +369,7 @@
                 products.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
-                    card.innerHTML = `<div class="product-image"><img src="${product.image_url}" alt="${product.title}"></div><div class="product-info"><h3>${product.title}</h3><p class="product-price">KSH ${product.price.toLocaleString()}</p><p class="product-category">${product.category}</p><p class="product-quantity">Quantity: ${product.quantity}</p></div>`;
-                    // Inside the renderProducts method
-                    card.innerHTML = `
-                        <div class="product-image"><img src="${product.image_url}" alt="${product.title}"></div>
-                        <div class="product-info">
-                            <h3>${product.title}</h3>
-                            <p class="product-price">KSH ${product.price.toLocaleString()}</p>
-                            <p class="product-category">${product.category}</p>
-                            <p class="product-quantity">Quantity: ${product.quantity}</p> </div>`;
+                    card.innerHTML = `<div class="product-image"><img src="${product.image_url}" alt="${product.title}"></div><div class="product-info"><h3>${product.title}</h3><p class="product-price">KSH ${Number(product.price).toLocaleString()}</p><p class="product-category">Quantity: ${product.quantity}</p></div>`;
                     card.addEventListener('click', () => this.showProductDetail(product.item_id));
                     container.appendChild(card);
                 });
@@ -397,9 +400,8 @@
                         <div class="product-image"><img src="${item.image_url}" alt="${item.title}"></div>
                         <div class="product-info">
                             <h3>${item.title}</h3>
-                            <p class="product-price">KSH ${item.price.toLocaleString()}</p>
-                            <p>Status: ${item.listing_status}</p>
-                            <p class="product-quantity">Quantity: ${item.quantity.toLocaleString()}</p>
+                            <p class="product-price">KSH ${Number(item.price).toLocaleString()}</p>
+                            <p>Status: ${item.listing_status}</p><p>Quantity: ${item.quantity}</p>
                             <div style="margin-top: 10px; display: flex; gap: 10px;">
                                 <button class="btn-edit edit-item-btn" data-id="${item.item_id}">Edit 📝</button>
                                 <button class="btn-delete delete-item-btn" data-id="${item.item_id}">Delete 🗑️</button>
@@ -415,11 +417,23 @@
                     <h2>Post a New Item</h2>
                     <form id="product-form">
                         <div class="form-group"><label>Product Name</label><input type="text" id="product-name" required></div>
-                        <div class="form-group"><label>Category</label><select id="product-category" required><option value="">Select a category</option><option value="Books">Books</option><option value="Electronics">Electronics</option><option value="Furniture">Furniture</option><option value="Clothing">Clothing</option><option value="Other">Other</option></select></div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="product-category" required>
+                                <option value="">Select a category</option>
+                                <option value="Academics">Academics</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Dorm & Living">Dorm & Living</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Services">Services</option>
+                                <option value="Hobbies & Sports">Hobbies & Sports</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
                         <div class="form-group"><label>Price (KSH)</label><input type="number" id="product-price" min="0" required></div>
+                        <div class="form-group"><label>Quantity</label><input type="number" id="product-quantity" value="1" min="1" required></div>
                         <div class="form-group"><label>Description</label><textarea id="product-description" rows="4" required></textarea></div>
                         <div class="form-group"><label>Upload Image</label><input type="file" id="product-images" accept="image/*" required></div>
-                        <div class="form-group"><label>Quantity</label><input type="number" id="product-quantity" min="1" required></div>
                         <button type="submit" class="btn-primary">Post Item</button>
                     </form>`;
             }
@@ -429,15 +443,17 @@
                     const response = await fetch(`${this.API_URL}/api/items/${itemId}`);
                     if (!response.ok) throw new Error('Product not found.');
                     const product = await response.json();
+                    
                     this.productDetailPage.querySelector('#detail-title').textContent = product.title;
                     this.productDetailPage.querySelector('#detail-price').textContent = `KSH ${Number(product.price).toLocaleString()}`;
                     this.productDetailPage.querySelector('#detail-category').textContent = product.category;
-                    this.productDetailPage.querySelector('#detail-quantity').textContent = `Quantity: ${Number(product.quantity).toLocaleString()}`;
+                    this.productDetailPage.querySelector('#detail-quantity').textContent = `Quantity: ${product.quantity}`;
                     this.productDetailPage.querySelector('#detail-full-description').textContent = product.description;
                     this.productDetailPage.querySelector('#detail-seller-name').textContent = `Name: ${product.seller_name}`;
                     this.productDetailPage.querySelector('#detail-seller-email').textContent = `Email: ${product.seller_email}`;
                     this.productDetailPage.querySelector('#detail-seller-phone').textContent = `Phone: ${product.seller_phone || 'Not provided'}`;
                     this.productDetailPage.querySelector('#detail-main-image').src = product.image_url;
+                    
                     this.showPage('product-detail');
                 } catch (error) { alert(`Error: ${error.message}`); }
             }
@@ -519,11 +535,8 @@
                 } catch (error) { alert(`Update Error: ${error.message}`); }
             }
         }
-
         new MarketplaceApp();
-        
     });
-    
     </script>
 </body>
 </html>
