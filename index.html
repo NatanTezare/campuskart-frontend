@@ -200,7 +200,8 @@
                 }
             }
             
-            // Replace your entire setupEventListeners method with this
+
+            // Replace your entire setupEventListeners method with this one
             setupEventListeners() {
                 // --- AUTH LISTENERS ---
                 this.loginTab.addEventListener('click', () => this.switchAuthTab('login'));
@@ -210,7 +211,7 @@
                 
                 // --- DELEGATED LISTENERS (for clicks on the whole app) ---
                 this.app.addEventListener('click', (e) => {
-                    // ✅ FIX: Burger menu logic is now here
+                    // ✅ FIX: Burger menu logic is now here and will always work
                     if (e.target.matches('#burger-menu')) {
                         const navLinksList = document.querySelector('.nav-links-list');
                         if (navLinksList) navLinksList.classList.toggle('nav-active');
@@ -260,6 +261,7 @@
                     else if (e.target.matches('#edit-product-form')) this.handleUpdateSubmit(e);
                 });
             }
+
             switchAuthTab(tab) {
                 this.loginTab.classList.toggle('active', tab === 'login');
                 this.signupTab.classList.toggle('active', tab === 'signup');
@@ -519,7 +521,9 @@
         }
 
         new MarketplaceApp();
+        
     });
+    
     </script>
 </body>
 </html>
